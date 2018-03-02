@@ -1,6 +1,3 @@
-var cool = require("cool-ascii-faces");
-console.log(cool());
-
 var express = require("express");
 var app = express();
 app.get("/hello",(req,res)=>{
