@@ -1,7 +1,13 @@
 var express = require("express");
-var app = express();
-app.get("/hello",(req,res)=>{
-    res.send("Hello World");
+var port = (process.env.PORT || 1607); //proces objeto definido para acceded a la variable de entorno PORT
+var server = express();
+
+server.use("",express.static("/home/ubuntu/workspace/SOS1718-06-sandbox/public"));
+
+server.listen(port,()=>{
+    console.log("server readyon porto "+port+"!!!!!"); //cuando se va iniciar de verdad el listen
+}).on("error",(error)=>{
+    console.log("server NOT readyon porto "+error); 
 });
 
-app.listen(process.env.PORT);
+console.log("server setting up lul");
