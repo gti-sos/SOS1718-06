@@ -3,6 +3,7 @@ var port = (process.env.PORT || 1607); //proces objeto definido para acceded a l
 var server = express();
 
 server.use("",express.static("/home/ubuntu/workspace/SOS1718-06-sandbox/public"));
+//server.use("/",express.static(__dirname+"/public")); //plugins(.static)
 
 server.listen(port,()=>{
     console.log("server readyon porto "+port+"!!!!!"); //cuando se va iniciar de verdad el listen
