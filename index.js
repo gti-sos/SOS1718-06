@@ -132,7 +132,11 @@ app.put(BASE_API_PATH_BUDGETS,(req,res)=>{ // debe dar un error de método no pe
 
 app.delete(BASE_API_PATH_BUDGETS,(req,res)=>{
     console.log(Date() + " - DELETE /budgets-generals/");
-    db.remove({});
+    db.find({},(err,bud)=>{
+        for(var i=0;i<bud.length;i++){
+            db.remove({});
+        }
+    });
     res.sendStatus(200);
 });
 
@@ -141,12 +145,17 @@ app.get(BASE_API_PATH_BUDGETS+"/:section",(req,res)=>{
     var section = req.params.section;
     console.log(Date() + " - GET /budgets-generals/"+section);
     
-    res.send(budgets.filter((b)=>{
-        return (b.section == section);
-    })[0]);
+    db.find({"section":section},(err,sect)=>{
+        if(err){
+            console.error("Error acesing DB");
+            res.sendStatus(500);
+            return;
+        }
+    res.send(sect);});
+
 });
 
-
+/*
 app.delete(BASE_API_PATH_BUDGETS+"/:section",(req,res)=>{
     var section = req.params.section;
     console.log(Date() + " - DELETE /budgets-generals/"+section);
@@ -156,7 +165,7 @@ app.delete(BASE_API_PATH_BUDGETS+"/:section",(req,res)=>{
     });
     
     res.sendStatus(200);
-});
+});*/
 
 app.delete(BASE_API_PATH_BUDGETS+"/:section",(req,res)=>{
      var section1 = req.params.section;
