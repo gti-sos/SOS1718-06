@@ -1,18 +1,17 @@
 var express = require("express");
-var app = express();
-var port = (process.env.PORT || 1607);
-var BASE_API = "/api/v1";
 var bodyParser = require("body-parser");
-var contacts = [{
-    "name":"pablo",
-    "phone":12345
-},
-{
-    "name":"pepe",
-    "phone":6789
-}];
+var DataStore = require("nedb");
+var port = (process.env.PORT || 1607);
 
-<<<<<<< HEAD
+var BASE_API_PATH = "/api/v1";
+var BASE_API_PATH_BUDGETS = "/api/v1/budgets-generals";
+var BASE_API_PATH_HELP = "/api/v1/help";
+var BASE_API_PATH_Spending = "/apiSpending-policies/v1";
+
+var dbBudgets= __dirname + "budgets-generals.db";
+
+var app = express();
+
 app.use(bodyParser.json());
 app.get(BASE_API_PATH_HELP,(req,res)=>{
     res.redirect("https://documenter.getpostman.com/collection/view/3895452-62614861-fe34-4ef4-83a2-a39409f16891#443a5885-f455-4f36-b0e1-3fc2a43728d1");
@@ -187,24 +186,150 @@ app.post(BASE_API_PATH_BUDGETS+"/:section",(req,res)=>{ //debe dar error de mét
     var section = req.params.section;
     console.log(Date() + " - POST /budgets-generals/"+section);
     res.sendStatus(405);
-=======
-app.listen(port,()=>{
-    console.log("Server ready on port" + port + "!");
-}).on("error",(e)=>{
-    console.log("Server not ready" + e);
->>>>>>> 0154054cf693569e7626ec01f760d962162da486
 });
 
-app.use("/",express.static(__dirname + "/public"));
-
-app.use(bodyParser.json());
-
-app.get(BASE_API + "/contacts",(req,res)=>{
-   res.send(contacts); 
+app.put(BASE_API_PATH_BUDGETS+"/:section",(req,res)=>{
+    var section = req.params.section;
+    var b = req.body;
+    
+    console.log(Date() + " - PUT /budgets-generals/"+section);
+    
+   if (section != b.section) {
+        res.sendStatus(409);
+        console.warn(Date() + " - Hacking attempt!");
+        return;
+    }
+    
+    db.update({"section": b.section},b,(err,numUpdated)=>{
+        if (err) {
+            console.error("Error accesing DB");
+            res.sendStatus(500);
+            return;
+        }
+        console.log("Updated: " + numUpdated);
+    });
+    res.sendStatus(200);
 });
 
-app.post(BASE_API + "/contacts",(req,res)=>{
-    var contact = req.body;
-    contacts.push(contact);
+var spendingPolicies = [
+        { 
+            "section" : "GastosDePersonal",
+            "community" : "Andalucia",
+            "year" : 2017,
+            "percentage-total" : 30.8 ,
+            "percentage-variable" : 1.7
+        },
+        { 
+            "section" : "GastosCorrientesEnBienesYServicios",
+            "community" : "Andalucia",
+            "year" : 2017,
+            "percentage-total" : 9.9 ,
+            "percentage-variable" : 12.9
+        },
+        { 
+            "section" : "GastosFinancieros",
+            "community" : "Andalucia",
+            "year" : 2017,
+            "percentage-total" : 1.5 ,
+            "percentage-variable" : -5.1
+        },
+        { 
+            "section" : "TransferenciasCorrientes",
+            "community" : "Andalucia",
+            "year" : 2017,
+            "percentage-total" : 35.4 ,
+            "percentage-variable" : 1.4
+        },
+        { 
+            "section" : "InversionesReales",
+            "community" : "Andalucia",
+            "year" : 2017,
+            "percentage-total" : 4 ,
+            "percentage-variable" : 10.3
+        }
+    ];
+    
+    
+    
+
+app.get(BASE_API_PATH_Spending+"/spendingPolicies",(req,res)=>{
+    console.log(Date() + " - GET /spendingPolicies");
+    res.send(spendingPolicies);
+});
+
+app.post(BASE_API_PATH_Spending+"/spendingPolicies",(req,res)=>{
+    console.log(Date() + " - POST /spendingPolicies");
+    var spendingPolicie = req.body;
+    spendingPolicies.push(spendingPolicie);
     res.sendStatus(201);
 });
+
+app.put(BASE_API_PATH_Spending+"/spendingPolicies",(req,res)=>{
+    console.log(Date() + " - PUT /spendingPolicies");
+    res.sendStatus(405);
+});
+
+app.delete(BASE_API_PATH_Spending+"/spendingPolicies",(req,res)=>{
+    console.log(Date() + " - DELETE /spendingPolicies");
+    spendingPolicies = [];
+    res.sendStatus(200);
+});
+
+
+app.get(BASE_API_PATH_Spending+"/spendingPolicies/:section",(req,res)=>{
+    var section = req.params.section;
+    console.log(Date() + " - GET /spendingPolicies/"+section);
+    
+    res.send(spendingPolicies.filter((c)=>{
+        return (c.section == section);
+    })[0]);
+});
+
+app.delete(BASE_API_PATH_Spending+"/spendingPolicies/:section",(req,res)=>{
+    var section = req.params.section;
+    console.log(Date() + " - DELETE /spendingPolicies/"+section);
+    
+    spendingPolicies = spendingPolicies.filter((c)=>{
+        return (c.section != section);
+    });
+    
+    res.sendStatus(200);
+});
+
+app.post(BASE_API_PATH_Spending+"/spendingPolicies/:section",(req,res)=>{
+    var section = req.params.section;
+    console.log(Date() + " - POST /spendingPolicies/"+section);
+    res.sendStatus(405);
+});
+
+app.put(BASE_API_PATH_Spending+"/spendingPolicies/:section",(req,res)=>{
+    var section = req.params.section;
+    var spendingPolicie = req.body;
+    
+    console.log(Date() + " - PUT /spendingPolicies/"+section);
+    
+    if(section != spendingPolicie.section){
+        res.sendStatus(409);
+        console.warn(Date()+" - Hacking attempt!");
+        return;
+    }
+    
+    spendingPolicies = spendingPolicies.map((c)=>{
+        if(c.section == spendingPolicie.section)
+            return spendingPolicie;
+        else
+            return c;
+    });
+    
+    res.sendStatus(200);
+});
+
+
+
+app.listen(port,()=>{
+    console.log("Server ready on port "+port+"!");
+}).on("error",(e)=>{
+    console.log("Server NOT READY:"+e);
+});
+
+console.log("Server setting up...");
