@@ -1,11 +1,22 @@
 var express = require("express");
-var app = express();
-var port = (process.env.PORT || 1607);
-var budgetsLawsApi = require("./budgetsLawsApi");
 var bodyParser = require("body-parser");
+var DataStore = require("nedb");
+
+var MongoClient = require("mongodb").MongoClient;
+
+var budgetsLawsApi = require("./budgetsLawsApi");
+
+var port = (process.env.PORT || 1607);
+
+var mdbURL = "mongodb://dbaom:sos1718-06@ds231559.mlab.com:31559/sos1718-aom-sandbox";
+
+var app = express();
+app.use("/",express.static(__dirname+"/public"));
+app.use(bodyParser.json());
+
 
     
-var initialBudgetsLaws = [
+var InitialBudgetsLaws = [
         { 
             "community" : "andalucia",
             "year" : 2017,
@@ -19,12 +30,32 @@ var initialBudgetsLaws = [
             "section" : "Agencia-Pública-Empresarial-de-la-Radio-y-Televisión-de-Andalucía-(RTVA)",
             "budget-of-capital" : "968.284",
             "total" : "161.435.032"
-        }];
+        },
+         { 
+            "community" : "andalucia",
+            "year" : 2017,
+            "section" : "Agencia-Andaluza-del-Conocimiento",
+            "budget-of-capital" : "200.000",
+            "total" : "7.153.248"
+        },
+         { 
+            "community" : "andalucia",
+            "year" : 2017,
+            "section" : "Agencia-Pública-Andaluza-de-Educación",
+            "budget-of-capital" : "1.500.000",
+            "total" : "379.706.833"
+        },
+         { 
+            "community" : "andalucia",
+            "year" : 2017,
+            "section" : "Agencia-Pública-Empresarial-Sanitaria-Bajo-Guadalquivir",
+            "budget-of-capital" : "800.000",
+            "total" : "50.892.169"
+        }
+       
+       
+    ];
     
-app.use(bodyParser.json());
-var mdbURL = "mongodb://dbaom:sos1718-06@ds231559.mlab.com:31559/sos1718-aom-sandbox";
-
-var MongoClient = require("mongodb").MongoClient;
 
 MongoClient.connect(mdbURL,{native_parser:true},(err,mlabs)=>{
    if(err){
@@ -37,17 +68,21 @@ MongoClient.connect(mdbURL,{native_parser:true},(err,mlabs)=>{
        var db = database.collection("budgetsLaws");
    
    
-   db.find({}).toArray((err,budgetsLaws)=>{
-    
-    if(budgetsLaws.length == 0){
+   db.find({},(err,budgetsLaws)=>{
+    if(err){
+        console.error("error accesing db");
+        process.exit(1);
+    }
+    if(InitialBudgetsLaws.length == 0){
         console.log("Empty DB");
-        db.insert(initialBudgetsLaws);
+        db.insert(InitialBudgetsLaws);
     }else{
-        console.log("Db has " + budgetsLaws.length + " budgetsLaws");
+        console.log("Db has " + InitialBudgetsLaws.length + " budgetsLaws");
     }
 });
 
 budgetsLawsApi.register(app,db);
+
 app.listen(port,()=>{
     console.log("Server ready on port" + port + "!");
 }).on("error",(e)=>{
