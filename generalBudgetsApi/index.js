@@ -169,26 +169,25 @@ generalBudgetsApi.register = function(app, db) {
     });
 
     //PUT a un recurso concreto
-    /* app.put(BASE_API_PATH_GB+"/:section",(req,res)=>{
-    var section = req.params.section;
-    var b = req.body;
+   app.put(BASE_API_PATH_GB + "/:section",(req,res)=>{
+   var section = req.params.section;
+   var budget = req.body;
+
+   console.log(Date() + " - PUT /generalBudgets/" + section);
     
-    console.log(Date() + " - PUT /generalBudgets/"+section);
-    
-   if (section != b.section) {
-        res.sendStatus(409);
-        console.warn(Date() + " - Hacking attempt!");
-        return;
+    if(!section){
+        console.log("warning: new Put");
+        res.sendStatus(400);
     }
     
-    db.update({"section": b.section},b,(err,numUpdated)=>{
-        if (err) {
-            console.error("Error accesing DB");
-            res.sendStatus(500);
-            return;
-        }
-        console.log("Updated: " + numUpdated);
-    });
-    res.sendStatus(200);
-});*/
+   if(section != budget.section){
+       res.sendStatus(409);
+       console.warn(Date() + " - Hacking attempt!");
+       return;
+   }
+
+
+   db.update({"section": budget.section},budget);
+   res.sendStatus(200);
+});
 };
