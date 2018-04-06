@@ -11,35 +11,35 @@ var InitialBudgetsLaws = [
         {
             "community" : "andalucia",
             "year" : 2017,
-            "section" : "Agencia-Pública-Empresarial-de-la-Radio-y-Televisión-de-Andalucía-(RTVA)-(Consolidado)",
+            "section" : "Agencia-publica-empresarial-de-la-radio-y-television-de-andalucia-RTVA-consolidado",
             "budget-of-capital" : "5.686.779",
             "total" : "169.692.400"
         },
          {
             "community" : "andalucia",
             "year" : 2017,
-            "section" : "Agencia-Pública-Empresarial-de-la-Radio-y-Televisión-de-Andalucía-(RTVA)",
+            "section" : "Agencia-publica-empresarial-de-la-radio-y-television-de-andalucia-RTVA",
             "budget-of-capital" : "968.284",
             "total" : "161.435.032"
         },
          {
             "community" : "andalucia",
             "year" : 2017,
-            "section" : "Agencia-Andaluza-del-Conocimiento",
+            "section" : "Agencia-andaluza-del-conocimiento",
             "budget-of-capital" : "200.000",
             "total" : "7.153.248"
         },
          {
             "community" : "andalucia",
             "year" : 2017,
-            "section" : "Agencia-Pública-Andaluza-de-Educación",
+            "section" : "Agencia-publica-andaluza-de-educacion",
             "budget-of-capital" : "1.500.000",
             "total" : "379.706.833"
         },
          {
             "community" : "andalucia",
             "year" : 2017,
-            "section" : "Agencia-Pública-Empresarial-Sanitaria-Bajo-Guadalquivir",
+            "section" : "Agencia-publica-empresarial-sanitaria-bajo-Guadalquivir",
             "budget-of-capital" : "800.000",
             "total" : "50.892.169"
         }
@@ -73,7 +73,7 @@ app.get(BASE_API_PATH_LAWS + "/loadInitialData", (req, res) => {
 });
 
 
-//CONTACTS GENERAL
+//BUDGETSLAWS GENERAL
 app.get(BASE_API_PATH_LAWS,(req,res)=>{
    console.log(Date() + " - GET /budgets-laws");
 
@@ -126,7 +126,7 @@ app.delete(BASE_API_PATH_LAWS,(req,res)=>{
     res.sendStatus(200);
 });
 
-//CONTACTS ESPECIFICO
+//BUDGETSLAWS ESPECIFICO
 app.get(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
    var section = req.params.section;
    console.log(Date() + " - GET /budgets-laws/" + section);
@@ -169,7 +169,12 @@ app.put(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
    var budget = req.body;
 
    console.log(Date() + " - PUT /budgets-laws/" + section);
-
+    
+    if(!section){
+        console.log("warning: new Put");
+        res.sendStatus(400);
+    }
+    
    if(section != budget.section){
        res.sendStatus(409);
        console.warn(Date() + " - Hacking attempt!");

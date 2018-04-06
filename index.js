@@ -1,6 +1,6 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var DataStore = require("nedb");
+//var DataStore = require("nedb");
 
 var MongoClient = require("mongodb").MongoClient;
 
@@ -17,43 +17,43 @@ app.use(bodyParser.json());
 
     
 var InitialBudgetsLaws = [
-        { 
+        {
             "community" : "andalucia",
             "year" : 2017,
-            "section" : "Agencia-Pública-Empresarial-de-la-Radio-y-Televisión-de-Andalucía-(RTVA)-(Consolidado)",
+            "section" : "Agencia-publica-empresarial-de-la-radio-y-television-de-andalucia-RTVA-consolidado",
             "budget-of-capital" : "5.686.779",
             "total" : "169.692.400"
         },
-         { 
+         {
             "community" : "andalucia",
             "year" : 2017,
-            "section" : "Agencia-Pública-Empresarial-de-la-Radio-y-Televisión-de-Andalucía-(RTVA)",
+            "section" : "Agencia-publica-empresarial-de-la-radio-y-television-de-andalucia-RTVA",
             "budget-of-capital" : "968.284",
             "total" : "161.435.032"
         },
-         { 
+         {
             "community" : "andalucia",
             "year" : 2017,
-            "section" : "Agencia-Andaluza-del-Conocimiento",
+            "section" : "Agencia-andaluza-del-conocimiento",
             "budget-of-capital" : "200.000",
             "total" : "7.153.248"
         },
-         { 
+         {
             "community" : "andalucia",
             "year" : 2017,
-            "section" : "Agencia-Pública-Andaluza-de-Educación",
+            "section" : "Agencia-publica-andaluza-de-educacion",
             "budget-of-capital" : "1.500.000",
             "total" : "379.706.833"
         },
-         { 
+         {
             "community" : "andalucia",
             "year" : 2017,
-            "section" : "Agencia-Pública-Empresarial-Sanitaria-Bajo-Guadalquivir",
+            "section" : "Agencia-publica-empresarial-sanitaria-bajo-Guadalquivir",
             "budget-of-capital" : "800.000",
             "total" : "50.892.169"
         }
-       
-       
+
+
     ];
     
 
