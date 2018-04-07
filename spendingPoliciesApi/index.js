@@ -8,6 +8,10 @@ module.exports = spendingPoliciesApi;
 spendingPoliciesApi.register = function(app, db) {
     console.log("Registering routes for spending policies API...");
 
+    app.get(BASE_API_PATH + "/docs", (req, res) => {
+        res.redirect("https://documenter.getpostman.com/view/3910868/RVu4Gq2r"); //postman
+    });
+
     var initialSpendingPolicies = [{
             "section": "GastosDePersonal",
             "community": "Andalucia",
@@ -44,8 +48,8 @@ spendingPoliciesApi.register = function(app, db) {
             "percentage-variable": 10.3
         }
     ];
-    
-     //loadInitialData
+
+    //loadInitialData
     app.get(BASE_API_PATH_SP + "/loadInitialData", (req, res) => {
         console.log(Date() + " - GET /loadInitialData" + initialSpendingPolicies);
 
@@ -146,7 +150,7 @@ spendingPoliciesApi.register = function(app, db) {
                 res.sendStatus(500);
                 return;
             }
-            
+
             if (spendingPolicies.length == 0) {
                 res.sendStatus(404);
                 return;
@@ -189,8 +193,8 @@ spendingPoliciesApi.register = function(app, db) {
         var spendingPolicie = req.body;
 
         console.log(Date() + " - PUT /spending-policies/" + section);
-        
-         if (Object.keys(spendingPolicie).length > 5 || !spendingPolicie.hasOwnProperty("section") || !spendingPolicie.hasOwnProperty("community") ||
+
+        if (Object.keys(spendingPolicie).length > 5 || !spendingPolicie.hasOwnProperty("section") || !spendingPolicie.hasOwnProperty("community") ||
             !spendingPolicie.hasOwnProperty("year") || !spendingPolicie.hasOwnProperty("percentage-total") || !spendingPolicie.hasOwnProperty("percentage-variable")) {
             res.sendStatus(400);
             return;
@@ -216,5 +220,5 @@ spendingPoliciesApi.register = function(app, db) {
         res.sendStatus(200);
     });
 
-   
+
 };
