@@ -54,17 +54,17 @@ app.get(BASE_API_PATH_LAWS + "/docs", (req,res)=>{
 app.get(BASE_API_PATH_LAWS + "/loadInitialData", (req, res) => {
  console.log(Date() + " - GET /loadInitialData" + InitialBudgetsLaws);
 
- db.find({}).toArray((err,budgetsLaws)=>{
+ db.find({}).toArray((err,InitialBudgetsLaws)=>{ //budgetsLaws
     if(err){
         console.log("Error acccesing DB");
         process.exit(1);
         return;
         }
-    if(budgetsLaws.length == 0){
+    if(InitialBudgetsLaws.length == 0){ //budgetsLaws
         console.log("Empty DB");
         db.insert(InitialBudgetsLaws);
     }
-    res.send(budgetsLaws.map((c)=> {
+    res.send(InitialBudgetsLaws.map((c)=> { //budgetsLaws
             delete c._id;
             return c;
         }));
@@ -77,14 +77,14 @@ app.get(BASE_API_PATH_LAWS + "/loadInitialData", (req, res) => {
 app.get(BASE_API_PATH_LAWS,(req,res)=>{
    console.log(Date() + " - GET /budgets-laws");
 
-   db.find({}).toArray((err,budgetsLaws)=>{
+   db.find({}).toArray((err,InitialBudgetsLaws)=>{ //budgetsLaws
     if(err){
         console.error("Error accesing DB");
         res.sendStatus(500);
         return;
     }
 
-    res.send(budgetsLaws.map((c)=>{
+    res.send(InitialBudgetsLaws.map((c)=>{ //budgetsLaws
         delete c._id;
         return c;
     }));
@@ -94,17 +94,18 @@ app.get(BASE_API_PATH_LAWS,(req,res)=>{
 app.post(BASE_API_PATH_LAWS,(req,res)=>{
     console.log(Date() + " - POST /budgets-laws");
     var budget = req.body;
-
+    
     if(!budget){
-        console.log("warning : new Get req");
+        console.log("warning: new Get req");
         res.sendStatus(400);
     }
-    db.find({"section":budget.section}).toArray((err,budgetsLaws)=>{
+    
+    db.find({"section":budget.section}).toArray((err,InitialBudgetsLaws)=>{  //budgetsLaws
         if(err){
             console.log("error accesing db");
             res.sendStatus(400);
         }
-        if(budgetsLaws.length>0){
+        if(InitialBudgetsLaws.length>0){  //budgetsLaws
             console.log("warning");
             res.sendStatus(409);
         }else{
@@ -122,6 +123,7 @@ app.put(BASE_API_PATH_LAWS,(req,res)=>{
 
 app.delete(BASE_API_PATH_LAWS,(req,res)=>{
     console.log(Date() + " - DELETE /budgets-laws");
+    InitialBudgetsLaws = [];
     db.remove({});
     res.sendStatus(200);
 });
@@ -131,17 +133,17 @@ app.get(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
    var section = req.params.section;
    console.log(Date() + " - GET /budgets-laws/" + section);
 
-   if(!section){
-       console.log("warning : new Get req");
-       res.sendStatus(400);
-   }
-   db.find({"section": section}).toArray((err,budgetsLaws)=>{
+   db.find({"section": section}).toArray((err,InitialBudgetsLaws)=>{ //budgetsLaws
     if(err){
         console.error("Error accesing DB");
         res.sendStatus(500);
         return;
     }
-    res.send(budgetsLaws.map((c)=>{
+    if(InitialBudgetsLaws.length == 0){
+        res.sendStatus(404);
+        return;
+    }
+    res.send(InitialBudgetsLaws.map((c)=>{  //budgetsLaws
         delete c._id;
         return c;
     })[0]);
@@ -151,9 +153,7 @@ app.get(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
 app.delete(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
    var section = req.params.section;
    console.log(Date() + " - DELETE /budgets-laws/" + section);
-   /*budgetsLaws = budgetsLaws.filter((c)=>{
-       return (c.section != section);
-   });*/
+
    db.remove({"section":section});
    res.sendStatus(200);
 });
@@ -172,11 +172,11 @@ app.put(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
     
     if(!section){
         console.log("warning: new Put");
-        res.sendStatus(400);
+        res.sendStatus(404);
     }
     
    if(section != budget.section){
-       res.sendStatus(409);
+       res.sendStatus(400);
        console.warn(Date() + " - Hacking attempt!");
        return;
    }

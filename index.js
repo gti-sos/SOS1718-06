@@ -68,7 +68,7 @@ MongoClient.connect(mdbURL,{native_parser:true},(err,mlabs)=>{
        var db = database.collection("budgetsLaws");
    
    
-   db.find({},(err,budgetsLaws)=>{
+   db.find({},(err,InitialBudgetsLaws)=>{ //budgetsLaws
     if(err){
         console.error("error accesing db");
         process.exit(1);
