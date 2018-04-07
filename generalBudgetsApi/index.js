@@ -1,14 +1,14 @@
 var generalBudgetsApi = {};
 var BASE_API_PATH = "/api/v1"; //variable global
-var BASE_API_PATH_GB = "/api/v1/generalBudgets";
+var BASE_API_PATH_GB = "/api/v1/general-budgets";
 
 module.exports = generalBudgetsApi; //voy a exportar ese objeto
 
 generalBudgetsApi.register = function(app, db) {
     console.log("Registering routs for contact API..");
 
-    app.get(BASE_API_PATH + "/help", (req, res) => {
-        res.redirect("https://documenter.getpostman.com/view/3895452/sos1718-06/RVu4GVnA"); //postman
+    app.get(BASE_API_PATH_GB + "/docs", (req, res) => {
+        res.redirect("https://documenter.getpostman.com/view/3895452/sos1718-06-dgc/RVu4GpaU"); //postman
     });
 
     var InitialGeneralBudgets = [{
@@ -73,8 +73,8 @@ generalBudgetsApi.register = function(app, db) {
     });
 
     //-------GET a todos los presupuestos generales-------------
-    app.get(BASE_API_PATH + "/generalBudgets", (req, res) => {
-        console.log(Date() + " - GET /generalBudgets");
+    app.get(BASE_API_PATH + "/general-budgets", (req, res) => {
+        console.log(Date() + " - GET /general-budgets");
 
         db.find({}).toArray((err, generalBudgets) => {
             if (err) {
@@ -92,7 +92,7 @@ generalBudgetsApi.register = function(app, db) {
     });
 
     //--------GET de un solo recurso--------------
-    app.get(BASE_API_PATH + "/generalBudgets/:section", (req, res) => {
+    app.get(BASE_API_PATH + "/general-budgets/:section", (req, res) => {
         var section = req.params.section;
         console.log(Date() + " - GET /section/" + section);
 
@@ -100,6 +100,10 @@ generalBudgetsApi.register = function(app, db) {
             if (err) {
                 console.error("Error accesing DB");
                 res.sendStatus(500);
+                return;
+            }
+            if (generalBudgets.length == 0) {
+                res.sendStatus(404);
                 return;
             }
 
@@ -111,8 +115,8 @@ generalBudgetsApi.register = function(app, db) {
     });
 
     //DELETE de TODO
-    app.delete(BASE_API_PATH + "/generalBudgets", (req, res) => { //igual
-        console.log(Date() + " - DELETE /generalBudgets");
+    app.delete(BASE_API_PATH + "/general-budgets", (req, res) => { //igual
+        console.log(Date() + " - DELETE /general-budgets");
         generalBudgets = [];
 
         db.remove({});
@@ -123,7 +127,7 @@ generalBudgetsApi.register = function(app, db) {
     //DELETE de algo concreto
     app.delete(BASE_API_PATH_GB + "/:section", (req, res) => {
         var section = req.params.section;
-        console.log(Date() + " - DELETE /generalBudgets/" + section);
+        console.log(Date() + " - DELETE /general-budgets/" + section);
 
         db.remove({ "section": section });
         res.sendStatus(200);
@@ -131,8 +135,14 @@ generalBudgetsApi.register = function(app, db) {
 
     //POST normal
     app.post(BASE_API_PATH_GB, (req, res) => {
-        console.log(Date() + " - POST /generalBudgets");
+        console.log(Date() + " - POST /general-budgets");
         var budget = req.body;
+        
+        if (Object.keys(budget).length > 5 ||!budget.hasOwnProperty("community")|| !budget.hasOwnProperty("year") ||
+            !budget.hasOwnProperty("section") || !budget.hasOwnProperty("total-budget") || !budget.hasOwnProperty("percentage-over-total")){
+            res.sendStatus(400);
+            return;
+            }
 
         if (!budget) {
             console.log("warning : new Get req");
@@ -158,13 +168,13 @@ generalBudgetsApi.register = function(app, db) {
     //POST a un recurso concreto
     app.post(BASE_API_PATH_GB + "/:section", (req, res) => { //debe dar error de método no permitido
         var section = req.params.section;
-        console.log(Date() + " - POST /generalBudgets/" + section);
+        console.log(Date() + " - POST /general-budgets/" + section);
         res.sendStatus(405);
     });
 
     //PUT general
     app.put(BASE_API_PATH_GB, (req, res) => { // debe dar un error de método no permitido
-        console.log(Date() + " - PUT /generalBudgets");
+        console.log(Date() + " - PUT /general-budgets");
         res.sendStatus(405);
     });
 
@@ -173,7 +183,7 @@ generalBudgetsApi.register = function(app, db) {
    var section = req.params.section;
    var budget = req.body;
 
-   console.log(Date() + " - PUT /generalBudgets/" + section);
+   console.log(Date() + " - PUT /general-budgets/" + section);
     
     if(!section){
         console.log("warning: new Put");
@@ -181,7 +191,7 @@ generalBudgetsApi.register = function(app, db) {
     }
     
    if(section != budget.section){
-       res.sendStatus(409);
+       res.sendStatus(400);
        console.warn(Date() + " - Hacking attempt!");
        return;
    }
