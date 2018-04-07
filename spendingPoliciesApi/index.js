@@ -8,7 +8,7 @@ module.exports = spendingPoliciesApi;
 spendingPoliciesApi.register = function(app, db) {
     console.log("Registering routes for spending policies API...");
 
-    app.get(BASE_API_PATH + "/docs", (req, res) => {
+    app.get(BASE_API_PATH_SP + "/docs", (req, res) => {
         res.redirect("https://documenter.getpostman.com/view/3910868/RVu4Gq2r"); //postman
     });
 
