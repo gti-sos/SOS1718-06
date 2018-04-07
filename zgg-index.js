@@ -3,7 +3,7 @@ var bodyParser = require("body-parser");
 
 var MongoClient = require("mongodb").MongoClient;
 
-var SPApi = require("./SPApi");
+var spendingPoliciesApi = require("./zgg-spendingPoliciesApi");
 
 var port = (process.env.PORT || 1607);
 
@@ -80,7 +80,7 @@ MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
 
     });
 
-    SPApi.register(app, db);
+    spendingPoliciesApi.register(app, db);
 
     app.listen(port, () => {
         console.log("Server ready on port " + port + "!");
