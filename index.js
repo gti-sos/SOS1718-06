@@ -105,18 +105,6 @@ MongoClient.connect(mdbURL,{native_parser:true},(err,mlabs)=>{
        var database = mlabs.db("sos1718-aom-sandbox");
        var db = database.collection("budgetsLaws");
    
-   
-   db.find({},(err,InitialBudgetsLaws)=>{ //budgetsLaws
-    if(err){
-        console.error("error accesing db");
-        process.exit(1);
-    }
-    console.log("Connected to DB in mlabs");
-
-    var database = mlabs.db("sos1718-aom-sandbox");
-    var db = database.collection("budgetsLaws");
-
-
     db.find({}, (err, budgetsLaws) => {
         if (err) {
             console.error("error accesing db");
@@ -133,7 +121,7 @@ MongoClient.connect(mdbURL,{native_parser:true},(err,mlabs)=>{
 
 
     budgetsLawsApi.register(app, db);
-
+});
     //---------------------conexión BD DIONI--------------------------
 
     MongoClient.connect(mdbGeneralBudgetURL, { native_parser: true }, (err, mlabs) => {
@@ -161,12 +149,10 @@ MongoClient.connect(mdbURL,{native_parser:true},(err,mlabs)=>{
                 console.log("Db has " + InitialGeneralBudgets.length + " generalBudgets");
             }
         });
-
-
-
-
+    
 
         generalBudgetsApi.register(app, db);
+    });
 
 
         app.listen(port, () => {
@@ -174,24 +160,3 @@ MongoClient.connect(mdbURL,{native_parser:true},(err,mlabs)=>{
         }).on("error", (e) => {
             console.log("Server NOT READY:" + e);
         });
-
-        console.log("Server setting up...");
-        
-    });
-   });
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
