@@ -73,7 +73,7 @@ app.get(BASE_API_PATH_LAWS + "/loadInitialData", (req, res) => {
 });
 
 
-//BUDGETSLAWS GENERAL
+/* BUDGETSLAWS GENERAL
 app.get(BASE_API_PATH_LAWS,(req,res)=>{
    console.log(Date() + " - GET /budgets-laws");
 
@@ -184,7 +184,135 @@ app.put(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
 
    db.update({"section": budget.section},budget);
    res.sendStatus(200);
+}); */
+
+ app.get(BASE_API_PATH_LAWS, (req, res) => {
+        console.log(Date() + " - GET /general-budgets");
+
+        db.find({}).toArray((err, InitialBudgetsLaws) => {
+            if (err) {
+                console.error("Error accesing DB");
+                res.sendStatus(500);
+                return;
+            }
+
+            res.send(InitialBudgetsLaws.map((c) => {
+                delete c._id;
+                return c;
+            }));
+        });
+
+    });
+
+    //--------GET de un solo recurso--------------
+    app.get(BASE_API_PATH_LAWS + "/:section", (req, res) => {
+        var section = req.params.section;
+        console.log(Date() + " - GET /section/" + section);
+
+        db.find({ "section": section }).toArray((err, InitialBudgetsLaws) => {
+            if (err) {
+                console.error("Error accesing DB");
+                res.sendStatus(500);
+                return;
+            }
+            if (InitialBudgetsLaws.length == 0) {
+                res.sendStatus(404);
+                return;
+            }
+
+            res.send(InitialBudgetsLaws.map((c) => {
+                delete c._id;
+                return c;
+            })[0]); // coge el primero que haya que cumpla la condición
+        });
+    });
+
+    //DELETE de TODO
+    app.delete(BASE_API_PATH_LAWS, (req, res) => { //igual
+        console.log(Date() + " - DELETE /general-budgets");
+        InitialBudgetsLaws = [];
+
+        db.remove({});
+
+        res.sendStatus(200);
+    });
+
+    //DELETE de algo concreto
+    app.delete(BASE_API_PATH_LAWS + "/:section", (req, res) => {
+        var section = req.params.section;
+        console.log(Date() + " - DELETE /general-budgets/" + section);
+
+        db.remove({ "section": section });
+        res.sendStatus(200);
+    });
+
+    //POST normal
+    app.post(BASE_API_PATH_LAWS, (req, res) => {
+        console.log(Date() + " - POST /general-budgets");
+        var budget = req.body;
+        
+        if (Object.keys(budget).length > 5 ||!budget.hasOwnProperty("community")|| !budget.hasOwnProperty("year") ||
+            !budget.hasOwnProperty("section") || !budget.hasOwnProperty("budget-of-capital") || !budget.hasOwnProperty("total")){
+            res.sendStatus(400);
+            return;
+            }
+
+        if (!budget) {
+            console.log("warning : new Get req");
+            res.sendStatus(400);
+        }
+        db.find({ "section": budget.section }).toArray((err, InitialBudgetsLaws) => {
+            if (err) {
+                console.log("error accesing db");
+                res.sendStatus(400);
+            }
+            if (InitialBudgetsLaws.length > 0) {
+                console.log("warning");
+                res.sendStatus(409);
+            }
+            else {
+                db.insert(budget);
+                res.sendStatus(201);
+            }
+        });
+
+    });
+
+    //POST a un recurso concreto
+    app.post(BASE_API_PATH_LAWS + "/:section", (req, res) => { //debe dar error de método no permitido
+        var section = req.params.section;
+        console.log(Date() + " - POST /general-budgets/" + section);
+        res.sendStatus(405);
+    });
+
+    //PUT general
+    app.put(BASE_API_PATH_LAWS, (req, res) => { // debe dar un error de método no permitido
+        console.log(Date() + " - PUT /general-budgets");
+        res.sendStatus(405);
+    });
+
+    //PUT a un recurso concreto
+   app.put(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
+   var section = req.params.section;
+   var budget = req.body;
+
+   console.log(Date() + " - PUT /general-budgets/" + section);
+    
+    if(!section){
+        console.log("warning: new Put");
+        res.sendStatus(400);
+    }
+    
+   if(section != budget.section){
+       res.sendStatus(400);
+       console.warn(Date() + " - Hacking attempt!");
+       return;
+   }
+
+
+   db.update({"section": budget.section},budget);
+   res.sendStatus(200);
 });
-
-
 };
+
+
