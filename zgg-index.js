@@ -6,7 +6,6 @@ var MongoClient = require("mongodb").MongoClient;
 var SPApi = require("./SPApi");
 
 var port = (process.env.PORT || 1607);
-//var BASE_API_PATH_Spending = "/apiSpending-policies/v1";
 
 var mdbURL = "mongodb://s-p-api:spapi@ds129939.mlab.com:29939/sos1718-spending-policies";
 
