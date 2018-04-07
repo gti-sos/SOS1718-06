@@ -8,7 +8,7 @@ generalBudgetsApi.register = function(app, db) {
     console.log("Registering routs for contact API..");
 
     app.get(BASE_API_PATH + "/help", (req, res) => {
-        res.redirect(""); //postman
+        res.redirect("https://documenter.getpostman.com/view/3895452/sos1718-06/RVu4GVnA"); //postman
     });
 
     var InitialGeneralBudgets = [{
