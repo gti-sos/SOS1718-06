@@ -107,36 +107,36 @@ var initialSpendingPolicies = [
             "section" : "GastosDePersonal",
             "community" : "Andalucia",
             "year" : 2017,
-            "percentage-total" : 30.8 ,
-            "percentage-variable" : 1.7
+            "percentagetotal" : 30.8 ,
+            "percentagevariable" : 1.7
         },
         { 
             "section" : "GastosCorrientesEnBienesYServicios",
             "community" : "Andalucia",
             "year" : 2017,
-            "percentage-total" : 9.9 ,
-            "percentage-variable" : 12.9
+            "percentagetotal" : 9.9 ,
+            "percentagevariable" : 12.9
         },
         { 
             "section" : "GastosFinancieros",
             "community" : "Andalucia",
             "year" : 2017,
-            "percentage-total" : 1.5 ,
-            "percentage-variable" : -5.1
+            "percentagetotal" : 1.5 ,
+            "percentagevariable" : -5.1
         },
         { 
             "section" : "TransferenciasCorrientes",
             "community" : "Andalucia",
             "year" : 2017,
-            "percentage-total" : 35.4 ,
-            "percentage-variable" : 1.4
+            "percentagetotal" : 35.4 ,
+            "percentagevariable" : 1.4
         },
         { 
             "section" : "InversionesReales",
             "community" : "Andalucia",
             "year" : 2017,
-            "percentage-total" : 4 ,
-            "percentage-variable" : 10.3
+            "percentagetotal" : 4 ,
+            "percentagevariable" : 10.3
         }
     ];
 
