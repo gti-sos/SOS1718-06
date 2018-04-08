@@ -10,13 +10,19 @@ var spendingPoliciesApi = require("./spendingPoliciesApi");
 
 var port = (process.env.PORT || 1607);
 
-var mdbURL = "mongodb://dbaom:sos1718-06@ds231559.mlab.com:31559/sos1718-aom-sandbox";
+var mdbBudgetsLawsURL = "mongodb://dbaom:sos1718-06@ds231559.mlab.com:31559/sos1718-aom-sandbox";
 var mdbGeneralBudgetURL = "mongodb://diogalcam:061196dioni@ds237489.mlab.com:37489/diogalcam";
-var mdbURL = "mongodb://s-p-api:spapi@ds129939.mlab.com:29939/sos1718-spending-policies";
+var mdbSpendingPliciesURL = "mongodb://s-p-api:spapi@ds129939.mlab.com:29939/sos1718-spending-policies";
 
 var app = express();
 app.use("/", express.static(__dirname + "/public"));
 app.use(bodyParser.json());
+
+app.listen(port, () => {
+    console.log("Server ready on port " + port + "!");
+}).on("error", (e) => {
+    console.log("Server NOT READY:" + e);
+});
 
 var InitialGeneralBudgets = [{
         "community": "andalucia",
@@ -135,7 +141,7 @@ var initialSpendingPolicies = [
     ];
 
 
-MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
+MongoClient.connect(mdbBudgetsLawsURL, { native_parser: true }, (err, mlabs) => {
     if (err) {
         console.error("Error accesing DB:" + err);
         process.exit(1);
@@ -203,7 +209,7 @@ budgetsLawsApi.register(app, db);
     
     //-------Conexión BD Zoilo--------
 
-    MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
+    MongoClient.connect(mdbSpendingPliciesURL, { native_parser: true }, (err, mlabs) => {
         if (err) {
             console.error("Error accesing DB:" + err);
             process.exit(1);
@@ -229,13 +235,5 @@ budgetsLawsApi.register(app, db);
         spendingPoliciesApi.register(app, db);
         
     });
-
-        app.listen(port, () => {
-            console.log("Server ready on port " + port + "!");
-        }).on("error", (e) => {
-            console.log("Server NOT READY:" + e);
-        });
-        
-        console.log("Server setting up...");
 
 
