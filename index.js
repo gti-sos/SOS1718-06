@@ -28,36 +28,36 @@ var InitialGeneralBudgets = [{
         "community": "andalucia",
         "year": 2017,
         "section": "parlamento-de-andalucia",
-        "total-budget": "45.479.748",
-        "percentage-over-total": "0.137"
+         "totalbudget": 454.7,
+        "percentage-over-total": 0.1
     },
     {
         "community": "andalucia",
         "year": 2017,
         "section": "deuda-publica",
-        "total-budget": "4.162.050.097",
-        "percentage-over-total": "12.521"
+         "totalbudget": 412.5,
+        "percentage-over-total": 12.5
     },
     {
         "community": "andalucia",
         "year": 2017,
         "section": "camara-de-cuentas",
-        "total-budget": "10.408.549",
-        "percentage-over-total": "31"
+        "totalbudget": 104.1,
+        "percentage-over-total": 31.0
     },
     {
         "community": "andalucia",
         "year": 2017,
         "section": "consejeria-de-educacion",
-        "total-budget": "6.100.323.433",
-        "percentage-over-total": "18.353"
+        "totalbudget": 610.3,
+        "percentage-over-total": 18.3
     },
     {
         "community": "andalucia",
         "year": 2017,
         "section": "consejeria-de-salud",
-        "total-budget": "725.885.406",
-        "percentage-over-total": "2.184"
+        "totalbudget": 725.6,
+        "percentage-over-total": 2.1
     },
 
 
