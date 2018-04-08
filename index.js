@@ -6,11 +6,13 @@ var MongoClient = require("mongodb").MongoClient;
 
 var budgetsLawsApi = require("./budgetsLawsApi");
 var generalBudgetsApi = require("./generalBudgetsApi");
+var spendingPoliciesApi = require("./spendingPoliciesApi");
 
 var port = (process.env.PORT || 1607);
 
 var mdbURL = "mongodb://dbaom:sos1718-06@ds231559.mlab.com:31559/sos1718-aom-sandbox";
 var mdbGeneralBudgetURL = "mongodb://diogalcam:061196dioni@ds237489.mlab.com:37489/diogalcam";
+var mdbURL = "mongodb://s-p-api:spapi@ds129939.mlab.com:29939/sos1718-spending-policies";
 
 var app = express();
 app.use("/", express.static(__dirname + "/public"));
@@ -93,70 +95,147 @@ var InitialBudgetsLaws = [{
 
 
 ];
-    
 
-MongoClient.connect(mdbURL,{native_parser:true},(err,mlabs)=>{
-   if(err){
-       console.error("Error accesing DB:"+ err);
-       process.exit(1);
-   }
-       console.log("Connected to DB in mlabs");
-       
-       var database = mlabs.db("sos1718-aom-sandbox");
-       var db = database.collection("budgetsLaws");
-   
+var initialSpendingPolicies = [
+        { 
+            "section" : "GastosDePersonal",
+            "community" : "Andalucia",
+            "year" : 2017,
+            "percentage-total" : 30.8 ,
+            "percentage-variable" : 1.7
+        },
+        { 
+            "section" : "GastosCorrientesEnBienesYServicios",
+            "community" : "Andalucia",
+            "year" : 2017,
+            "percentage-total" : 9.9 ,
+            "percentage-variable" : 12.9
+        },
+        { 
+            "section" : "GastosFinancieros",
+            "community" : "Andalucia",
+            "year" : 2017,
+            "percentage-total" : 1.5 ,
+            "percentage-variable" : -5.1
+        },
+        { 
+            "section" : "TransferenciasCorrientes",
+            "community" : "Andalucia",
+            "year" : 2017,
+            "percentage-total" : 35.4 ,
+            "percentage-variable" : 1.4
+        },
+        { 
+            "section" : "InversionesReales",
+            "community" : "Andalucia",
+            "year" : 2017,
+            "percentage-total" : 4 ,
+            "percentage-variable" : 10.3
+        }
+    ];
+
+
+MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
+    if (err) {
+        console.error("Error accesing DB:" + err);
+        process.exit(1);
+    }
+    console.log("Connected to DB in mlabs");
+
+    var database = mlabs.db("sos1718-aom-sandbox");
+    var db = database.collection("budgetsLaws");
+
     db.find({}, (err, budgetsLaws) => {
-        if (err) {
-            console.error("error accesing db");
-            process.exit(1);
-        }
-        if (InitialBudgetsLaws.length == 0) {
-            console.log("Empty DB");
-            db.insert(InitialBudgetsLaws);
-        }
-        else {
-            console.log("Db has " + InitialBudgetsLaws.length + " budgetsLaws");
-        }
-    });
-
-
-    budgetsLawsApi.register(app, db);
-});
-    //---------------------conexión BD DIONI--------------------------
-
-    MongoClient.connect(mdbGeneralBudgetURL, { native_parser: true }, (err, mlabs) => {
-        if (err) {
-            console.error("Error accesing DB:" + err);
-            process.exit(1);
-        }
-        console.log("\r\r\r\r"); //saltos de línea
-        console.log("Connected to DB in mlabs");
-
-        var database = mlabs.db("diogalcam");
-        var db = database.collection("generalBudgets");
-
-
-        db.find({}, (err, generalBudgets) => {
             if (err) {
                 console.error("error accesing db");
                 process.exit(1);
             }
-            if (InitialGeneralBudgets.length == 0) {
+            if (InitialBudgetsLaws.length == 0) {
                 console.log("Empty DB");
-                db.insert(InitialGeneralBudgets);
+                db.insert(InitialBudgetsLaws);
             }
             else {
-                console.log("Db has " + InitialGeneralBudgets.length + " generalBudgets");
+                console.log("Db has " + InitialBudgetsLaws.length + " budgetsLaws");
             }
         });
-    
 
-        generalBudgetsApi.register(app, db);
+
+budgetsLawsApi.register(app, db);
+
+});
+
+//---------------------conexión BD DIONI--------------------------
+
+        MongoClient.connect(mdbGeneralBudgetURL, { native_parser: true }, (err, mlabs) => {
+            if (err) {
+                console.error("Error accesing DB:" + err);
+                process.exit(1);
+            }
+            console.log("\r\r\r\r"); //saltos de línea
+            console.log("Connected to DB in mlabs");
+
+            var database = mlabs.db("diogalcam");
+            var db = database.collection("generalBudgets");
+
+
+            db.find({}, (err, generalBudgets) => {
+                if (err) {
+                    console.error("error accesing db");
+                    process.exit(1);
+                }
+                if (InitialGeneralBudgets.length == 0) {
+                    console.log("Empty DB");
+                    db.insert(InitialGeneralBudgets);
+                }
+                else {
+                    console.log("Db has " + InitialGeneralBudgets.length + " generalBudgets");
+                }
+            });
+
+
+
+
+
+            generalBudgetsApi.register(app, db);
+
+        
     });
+    
+    //-------Conexión BD Zoilo--------
 
+    MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
+        if (err) {
+            console.error("Error accesing DB:" + err);
+            process.exit(1);
+        }
+
+        console.log("Connected to DB in mlabs");
+
+        var database = mlabs.db("sos1718-spending-policies");
+        var db = database.collection("spendingPolicies");
+
+        db.find({}).toArray((err, spendingPolicies) => {
+
+            if (spendingPolicies.length == 0) {
+                console.log("Empty DB");
+                db.insert(initialSpendingPolicies);
+            }
+            else {
+                console.log("DB has " + spendingPolicies.length + " spendingPolicies");
+            }
+
+        });
+
+        spendingPoliciesApi.register(app, db);
+        
+    });
 
         app.listen(port, () => {
             console.log("Server ready on port " + port + "!");
         }).on("error", (e) => {
             console.log("Server NOT READY:" + e);
         });
+        
+        console.log("Server setting up...");
+
+
