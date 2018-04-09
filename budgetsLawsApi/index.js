@@ -95,9 +95,10 @@ app.post(BASE_API_PATH_LAWS,(req,res)=>{
     console.log(Date() + " - POST /budgets-laws");
     var budget = req.body;
     
-    if(!budget.community || !budget.year || !budget.section || !budget.budgetOfCapital || !budget.total || Object.keys(budget).length != 6){
-        console.log("warning: new get request");
+    if (Object.keys(budget).length > 5 ||!budget.hasOwnProperty("community")|| !budget.hasOwnProperty("year") ||
+        !budget.hasOwnProperty("section") || !budget.hasOwnProperty("budget-of-capital") || !budget.hasOwnProperty("total")){
         res.sendStatus(400);
+        return;
     }
     
     db.find({"section":budget.section}).toArray((err,InitialBudgetsLaws)=>{  //budgetsLaws
