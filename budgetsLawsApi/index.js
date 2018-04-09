@@ -12,35 +12,35 @@ var InitialBudgetsLaws = [
             "community" : "andalucia",
             "year" : 2017,
             "section" : "Agencia-publica-empresarial-de-la-radio-y-television-de-andalucia-RTVA-consolidado",
-            "budget-of-capital" : "5.686.779",
+            "budgetOfCapital" : "5.686.779",
             "total" : "169.692.400"
         },
          {
             "community" : "andalucia",
             "year" : 2017,
             "section" : "Agencia-publica-empresarial-de-la-radio-y-television-de-andalucia-RTVA",
-            "budget-of-capital" : "968.284",
+            "budgetOfCapital" : "968.284",
             "total" : "161.435.032"
         },
          {
             "community" : "andalucia",
             "year" : 2017,
             "section" : "Agencia-andaluza-del-conocimiento",
-            "budget-of-capital" : "200.000",
+            "budgetOfCapital" : "200.000",
             "total" : "7.153.248"
         },
          {
             "community" : "andalucia",
             "year" : 2017,
             "section" : "Agencia-publica-andaluza-de-educacion",
-            "budget-of-capital" : "1.500.000",
+            "budgetOfCapital" : "1.500.000",
             "total" : "379.706.833"
         },
          {
             "community" : "andalucia",
             "year" : 2017,
             "section" : "Agencia-publica-empresarial-sanitaria-bajo-Guadalquivir",
-            "budget-of-capital" : "800.000",
+            "budgetOfCapital" : "800.000",
             "total" : "50.892.169"
         }
 
@@ -95,15 +95,15 @@ app.post(BASE_API_PATH_LAWS,(req,res)=>{
     console.log(Date() + " - POST /budgets-laws");
     var budget = req.body;
     
-    if(!budget){
-        console.log("warning: new Get req");
+    if(!budget.community || !budget.year || !budget.section || !budget.budgetOfCapital || !budget.total || Object.keys(budget).length != 6){
+        console.log("warning: new get request");
         res.sendStatus(400);
     }
     
     db.find({"section":budget.section}).toArray((err,InitialBudgetsLaws)=>{  //budgetsLaws
         if(err){
             console.log("error accesing db");
-            res.sendStatus(400);
+            res.sendStatus(500);
         }
         if(InitialBudgetsLaws.length>0){  //budgetsLaws
             console.log("warning");
