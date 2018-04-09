@@ -48,7 +48,7 @@ var InitialBudgetsLaws = [
     ];
 
 app.get(BASE_API_PATH_LAWS + "/docs", (req,res)=>{
-    res.redirect("https://documenter.getpostman.com/view/4051792/collection/RVu1HAzC");
+    res.redirect("https://documenter.getpostman.com/view/4051792/collection/RVu5iTsK");
 });
 
 app.get(BASE_API_PATH_LAWS + "/loadInitialData", (req, res) => {
@@ -68,13 +68,12 @@ app.get(BASE_API_PATH_LAWS + "/loadInitialData", (req, res) => {
             delete c._id;
             return c;
         }));
-});
-
+    });
 });
 
 
 //paginacion
-app.get(BASE_API_PATH_LAWS + "/limit=:limit&offset=:offset", (req, res) => {
+/*app.get(BASE_API_PATH_LAWS + "/limit=:limit&offset=:offset", (req, res) => {
         var limit = parseInt(req.params.limit);
         var offset = parseInt(req.params.offset);
         console.log(Date() + " - GET /budgets-laws"+"/limit="+limit +"&offset="+offset);
@@ -174,7 +173,7 @@ app.get(BASE_API_PATH_LAWS + "/budget-of-capital=:x1&:x2", (req, res) => {
                return c;
             }));
         });
-    });
+    }); */
 
 
 
