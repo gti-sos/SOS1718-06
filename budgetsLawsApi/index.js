@@ -1,6 +1,5 @@
 var budgetsLawsApi = {};
 var BASE_API_PATH = "/api/v1";
-var BASE_API_PATH_LAWS = "/api/v1/budgets-laws";
 
 module.exports = budgetsLawsApi;
 
@@ -47,11 +46,11 @@ var BudgetsLawsInitial = [
 
     ];
 
-app.get(BASE_API_PATH_LAWS + "/docs", (req,res)=>{
+app.get(BASE_API_PATH + "/budgets-laws/docs", (req,res)=>{
     res.redirect("https://documenter.getpostman.com/view/4051792/collection/RVu1HAzC");
 });
 
-app.get(BASE_API_PATH_LAWS + "/loadInitialData", (req, res) => {
+app.get(BASE_API_PATH + "/budgets-laws/loadInitialData", (req, res) => {
  console.log(Date() + " - GET /loadInitialData" + BudgetsLawsInitial);
 
  db.find({}).toArray((err,BudgetsLawsInitial)=>{ //budgetsLaws
@@ -74,7 +73,7 @@ app.get(BASE_API_PATH_LAWS + "/loadInitialData", (req, res) => {
 
 
 //paginacion
-app.get(BASE_API_PATH_LAWS + "/limit=:limit&offset=:offset", (req, res) => {
+app.get(BASE_API_PATH + "/budgets-laws/limit=:limit&offset=:offset", (req, res) => {
         var limit = parseInt(req.params.limit);
         var offset = parseInt(req.params.offset);
         console.log(Date() + " - GET /budgets-laws"+"/limit="+limit +"&offset="+offset);
@@ -93,7 +92,7 @@ app.get(BASE_API_PATH_LAWS + "/limit=:limit&offset=:offset", (req, res) => {
     });
     
 //busquedas
-app.get(BASE_API_PATH_LAWS + "/community=:community", (req, res) => {
+app.get(BASE_API_PATH + "/budgets-laws/community=:community", (req, res) => {
         var community = req.params.community;
         console.log(Date() + " - GET /budgets-laws/community=" + community);
         db.find({"community": community }).toArray((err, budget) => {
@@ -113,7 +112,7 @@ app.get(BASE_API_PATH_LAWS + "/community=:community", (req, res) => {
         });
     });
     
-    app.get(BASE_API_PATH_LAWS + "/year=:year", (req, res) => {
+    app.get(BASE_API_PATH + "/budgets-laws/year=:year", (req, res) => {
         var year = parseInt(req.params.year);
         console.log(Date() + " - GET /budgets-laws/year=" + year);
         db.find({"year": year}).toArray((err, budget) => {
@@ -134,7 +133,7 @@ app.get(BASE_API_PATH_LAWS + "/community=:community", (req, res) => {
     });
     
 
-app.get(BASE_API_PATH_LAWS + "/budget-of-capital=:x1&:x2", (req, res) => {
+app.get(BASE_API_PATH + "/budgets-laws/budget-of-capital=:x1&:x2", (req, res) => {
         var x1 = parseFloat(req.params.x1);
         var x2 = parseFloat(req.params.x2);
         console.log(Date() + " - GET /budgets-laws/budget-of-capital=" + x1 + "-"+x2);
@@ -155,7 +154,7 @@ app.get(BASE_API_PATH_LAWS + "/budget-of-capital=:x1&:x2", (req, res) => {
         });
     });
     
-    app.get(BASE_API_PATH_LAWS + "/total=:x1&:x2", (req, res) => {
+    app.get(BASE_API_PATH + "/budgets-laws/total=:x1&:x2", (req, res) => {
         var x1 = parseFloat(req.params.x1);
         var x2 = parseFloat(req.params.x2);
         console.log(Date() + " - GET /budgets-laws/total=" + x1 + "-"+x2);
@@ -180,7 +179,7 @@ app.get(BASE_API_PATH_LAWS + "/budget-of-capital=:x1&:x2", (req, res) => {
 
 
 //BUDGETSLAWS GENERAL
-app.get(BASE_API_PATH_LAWS,(req,res)=>{
+app.get(BASE_API_PATH + "/budgets-laws",(req,res)=>{
    console.log(Date() + " - GET /budgets-laws");
 
    db.find({}).toArray((err,BudgetsLawsInitial)=>{ //budgetsLaws
@@ -197,7 +196,7 @@ app.get(BASE_API_PATH_LAWS,(req,res)=>{
     });
 });
 
-app.post(BASE_API_PATH_LAWS,(req,res)=>{
+app.post(BASE_API_PATH + "/budgets-laws",(req,res)=>{
     console.log(Date() + " - POST /budgets-laws");
     var budget = req.body;
     
@@ -223,12 +222,12 @@ app.post(BASE_API_PATH_LAWS,(req,res)=>{
 
   });
 
-app.put(BASE_API_PATH_LAWS,(req,res)=>{
+app.put(BASE_API_PATH + "/budgets-laws",(req,res)=>{
     console.log(Date() + " - PUT /budgets-laws");
     res.sendStatus(405);
 });
 
-app.delete(BASE_API_PATH_LAWS,(req,res)=>{
+app.delete(BASE_API_PATH + "/budgets-laws",(req,res)=>{
     console.log(Date() + " - DELETE /budgets-laws");
     BudgetsLawsInitial = [];
     db.remove({});
@@ -236,7 +235,7 @@ app.delete(BASE_API_PATH_LAWS,(req,res)=>{
 });
 
 //BUDGETSLAWS ESPECIFICO
-app.get(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
+app.get(BASE_API_PATH + "/budgets-laws/:section",(req,res)=>{
    var section = req.params.section;
    console.log(Date() + " - GET /budgets-laws/" + section);
 
@@ -257,7 +256,7 @@ app.get(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
     });
 });
 
-app.delete(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
+app.delete(BASE_API_PATH + "/budgets-laws/:section",(req,res)=>{
    var section = req.params.section;
    console.log(Date() + " - DELETE /budgets-laws/" + section);
 
@@ -265,13 +264,13 @@ app.delete(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
    res.sendStatus(200);
 });
 
-app.post(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
+app.post(BASE_API_PATH + "/budgets-laws/:section",(req,res)=>{
     var section = req.params.section;
     console.log(Date() + " - POST /budgets-laws/" + section);
     res.sendStatus(405);
 });
 
-app.put(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
+app.put(BASE_API_PATH + "/budgets-laws/:section",(req,res)=>{
    var section = req.params.section;
    var budget = req.body;
 
