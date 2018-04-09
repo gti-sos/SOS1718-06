@@ -1,12 +1,13 @@
 var budgetsLawsApi = {};
 var BASE_API_PATH = "/api/v1";
+var BASE_API_PATH_LAWS = "/api/v1/budgets-laws";
 
 module.exports = budgetsLawsApi;
 
 budgetsLawsApi.register= function(app,db){
     console.log("Registering routes for contacts API...");
 
-var BudgetsLawsInitial = [
+var InitialBudgetsLaws = [
         {
             "community" : "andalucia",
             "year" : 2017,
@@ -46,24 +47,24 @@ var BudgetsLawsInitial = [
 
     ];
 
-app.get(BASE_API_PATH + "/budgets-laws/docs", (req,res)=>{
+app.get(BASE_API_PATH_LAWS + "/docs", (req,res)=>{
     res.redirect("https://documenter.getpostman.com/view/4051792/collection/RVu1HAzC");
 });
 
-app.get(BASE_API_PATH + "/budgets-laws/loadInitialData", (req, res) => {
- console.log(Date() + " - GET /loadInitialData" + BudgetsLawsInitial);
+app.get(BASE_API_PATH_LAWS + "/loadInitialData", (req, res) => {
+ console.log(Date() + " - GET /loadInitialData" + InitialBudgetsLaws);
 
- db.find({}).toArray((err,BudgetsLawsInitial)=>{ //budgetsLaws
+ db.find({}).toArray((err,InitialBudgetsLaws)=>{ //budgetsLaws
     if(err){
         console.log("Error acccesing DB");
         process.exit(1);
         return;
         }
-    if(BudgetsLawsInitial.length == 0){ //budgetsLaws
+    if(InitialBudgetsLaws.length == 0){ //budgetsLaws
         console.log("Empty DB");
-        db.insert(BudgetsLawsInitial);
+        db.insert(InitialBudgetsLaws);
     }
-    res.send(BudgetsLawsInitial.map((c)=> { //budgetsLaws
+    res.send(InitialBudgetsLaws.map((c)=> { //budgetsLaws
             delete c._id;
             return c;
         }));
@@ -73,7 +74,7 @@ app.get(BASE_API_PATH + "/budgets-laws/loadInitialData", (req, res) => {
 
 
 //paginacion
-app.get(BASE_API_PATH + "/budgets-laws/limit=:limit&offset=:offset", (req, res) => {
+app.get(BASE_API_PATH_LAWS + "/limit=:limit&offset=:offset", (req, res) => {
         var limit = parseInt(req.params.limit);
         var offset = parseInt(req.params.offset);
         console.log(Date() + " - GET /budgets-laws"+"/limit="+limit +"&offset="+offset);
@@ -92,7 +93,7 @@ app.get(BASE_API_PATH + "/budgets-laws/limit=:limit&offset=:offset", (req, res) 
     });
     
 //busquedas
-app.get(BASE_API_PATH + "/budgets-laws/community=:community", (req, res) => {
+app.get(BASE_API_PATH_LAWS + "/community=:community", (req, res) => {
         var community = req.params.community;
         console.log(Date() + " - GET /budgets-laws/community=" + community);
         db.find({"community": community }).toArray((err, budget) => {
@@ -112,7 +113,7 @@ app.get(BASE_API_PATH + "/budgets-laws/community=:community", (req, res) => {
         });
     });
     
-    app.get(BASE_API_PATH + "/budgets-laws/year=:year", (req, res) => {
+    app.get(BASE_API_PATH_LAWS + "/year=:year", (req, res) => {
         var year = parseInt(req.params.year);
         console.log(Date() + " - GET /budgets-laws/year=" + year);
         db.find({"year": year}).toArray((err, budget) => {
@@ -133,7 +134,7 @@ app.get(BASE_API_PATH + "/budgets-laws/community=:community", (req, res) => {
     });
     
 
-app.get(BASE_API_PATH + "/budgets-laws/budget-of-capital=:x1&:x2", (req, res) => {
+app.get(BASE_API_PATH_LAWS + "/budget-of-capital=:x1&:x2", (req, res) => {
         var x1 = parseFloat(req.params.x1);
         var x2 = parseFloat(req.params.x2);
         console.log(Date() + " - GET /budgets-laws/budget-of-capital=" + x1 + "-"+x2);
@@ -154,7 +155,7 @@ app.get(BASE_API_PATH + "/budgets-laws/budget-of-capital=:x1&:x2", (req, res) =>
         });
     });
     
-    app.get(BASE_API_PATH + "/budgets-laws/total=:x1&:x2", (req, res) => {
+    app.get(BASE_API_PATH_LAWS + "/total=:x1&:x2", (req, res) => {
         var x1 = parseFloat(req.params.x1);
         var x2 = parseFloat(req.params.x2);
         console.log(Date() + " - GET /budgets-laws/total=" + x1 + "-"+x2);
@@ -179,24 +180,24 @@ app.get(BASE_API_PATH + "/budgets-laws/budget-of-capital=:x1&:x2", (req, res) =>
 
 
 //BUDGETSLAWS GENERAL
-app.get(BASE_API_PATH + "/budgets-laws",(req,res)=>{
+app.get(BASE_API_PATH_LAWS,(req,res)=>{
    console.log(Date() + " - GET /budgets-laws");
 
-   db.find({}).toArray((err,BudgetsLawsInitial)=>{ //budgetsLaws
+   db.find({}).toArray((err,InitialBudgetsLaws)=>{ //budgetsLaws
     if(err){
         console.error("Error accesing DB");
         res.sendStatus(500);
         return;
     }
 
-    res.send(BudgetsLawsInitial.map((c)=>{ //budgetsLaws
+    res.send(InitialBudgetsLaws.map((c)=>{ //budgetsLaws
         delete c._id;
         return c;
     }));
     });
 });
 
-app.post(BASE_API_PATH + "/budgets-laws",(req,res)=>{
+app.post(BASE_API_PATH_LAWS ,(req,res)=>{
     console.log(Date() + " - POST /budgets-laws");
     var budget = req.body;
     
@@ -206,12 +207,12 @@ app.post(BASE_API_PATH + "/budgets-laws",(req,res)=>{
         return;
     }
     
-    db.find({"section":budget.section}).toArray((err,BudgetsLawsInitial)=>{  //budgetsLaws
+    db.find({"section":budget.section}).toArray((err,InitialBudgetsLaws)=>{  //budgetsLaws
         if(err){
             console.log("error accesing db");
             res.sendStatus(500);
         }
-        if(BudgetsLawsInitial.length>0){  //budgetsLaws
+        if(InitialBudgetsLaws.length>0){  //budgetsLaws
             console.log("warning");
             res.sendStatus(409);
         }else{
@@ -222,41 +223,41 @@ app.post(BASE_API_PATH + "/budgets-laws",(req,res)=>{
 
   });
 
-app.put(BASE_API_PATH + "/budgets-laws",(req,res)=>{
+app.put(BASE_API_PATH_LAWS ,(req,res)=>{
     console.log(Date() + " - PUT /budgets-laws");
     res.sendStatus(405);
 });
 
-app.delete(BASE_API_PATH + "/budgets-laws",(req,res)=>{
+app.delete(BASE_API_PATH_LAWS,(req,res)=>{
     console.log(Date() + " - DELETE /budgets-laws");
-    BudgetsLawsInitial = [];
+    InitialBudgetsLaws = [];
     db.remove({});
     res.sendStatus(200);
 });
 
 //BUDGETSLAWS ESPECIFICO
-app.get(BASE_API_PATH + "/budgets-laws/:section",(req,res)=>{
+app.get(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
    var section = req.params.section;
    console.log(Date() + " - GET /budgets-laws/" + section);
 
-   db.find({"section": section}).toArray((err,BudgetsLawsInitial)=>{ //budgetsLaws
+   db.find({"section": section}).toArray((err,InitialBudgetsLaws)=>{ //budgetsLaws
     if(err){
         console.error("Error accesing DB");
         res.sendStatus(500);
         return;
     }
-    if(BudgetsLawsInitial.length == 0){
+    if(InitialBudgetsLaws.length == 0){
         res.sendStatus(404);
         return;
     }
-    res.send(BudgetsLawsInitial.map((c)=>{  //budgetsLaws
+    res.send(InitialBudgetsLaws.map((c)=>{  //budgetsLaws
         delete c._id;
         return c;
     })[0]);
     });
 });
 
-app.delete(BASE_API_PATH + "/budgets-laws/:section",(req,res)=>{
+app.delete(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
    var section = req.params.section;
    console.log(Date() + " - DELETE /budgets-laws/" + section);
 
@@ -264,13 +265,13 @@ app.delete(BASE_API_PATH + "/budgets-laws/:section",(req,res)=>{
    res.sendStatus(200);
 });
 
-app.post(BASE_API_PATH + "/budgets-laws/:section",(req,res)=>{
+app.post(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
     var section = req.params.section;
     console.log(Date() + " - POST /budgets-laws/" + section);
     res.sendStatus(405);
 });
 
-app.put(BASE_API_PATH + "/budgets-laws/:section",(req,res)=>{
+app.put(BASE_API_PATH_LAWS + "/:section",(req,res)=>{
    var section = req.params.section;
    var budget = req.body;
 
