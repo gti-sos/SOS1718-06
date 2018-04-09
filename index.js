@@ -63,7 +63,7 @@ var InitialGeneralBudgets = [{
 
 ];
 
-var InitialBudgetsLaws = [{
+var BudgetsLawsInitial = [{
         "community": "andalucia",
         "year": 2017,
         "section": "Agencia-publica-empresarial-de-la-radio-y-television-de-andalucia-RTVA-consolidado",
@@ -156,12 +156,12 @@ MongoClient.connect(mdbBudgetsLawsURL, { native_parser: true }, (err, mlabs) => 
                 console.error("error accesing db");
                 process.exit(1);
             }
-            if (InitialBudgetsLaws.length == 0) {
+            if (BudgetsLawsInitial.length == 0) {
                 console.log("Empty DB");
-                db.insert(InitialBudgetsLaws);
+                db.insert(BudgetsLawsInitial);
             }
             else {
-                console.log("Db has " + InitialBudgetsLaws.length + " budgetsLaws");
+                console.log("Db has " + BudgetsLawsInitial.length + " budgetsLaws");
             }
         });
 
