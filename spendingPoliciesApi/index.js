@@ -73,10 +73,10 @@ spendingPoliciesApi.register = function(app, db) {
     
     //------Paginación----------
 
-    app.get(BASE_API_PATH_SP + "/limit=:limit&offset=:offset", (req, res) => {
-        var limit = parseInt(req.params.limit);
-        var offset = parseInt(req.params.offset);
-        console.log(Date() + " - GET /spending-policies" + "/limit=" + limit + "&offset=" + offset);
+    app.get(BASE_API_PATH_SP + "/paginacion", (req, res) => {
+        var limit = parseInt(req.query.limit);
+        var offset = parseInt(req.query.offset);
+        console.log(Date() + " - GET /spending-policies" + "?limit=" + limit + "&offset=" + offset);
 
         db.find({}).skip(offset).limit(limit).toArray((err, spendingPolicies) => {
             if (err) {
@@ -93,9 +93,9 @@ spendingPoliciesApi.register = function(app, db) {
 
     //------Búsquedas---------
 
-    app.get(BASE_API_PATH_SP + "/section=:section", (req, res) => {
-        var section = req.params.section;
-        console.log(Date() + " - GET /spending-policies/section=" + section);
+    app.get(BASE_API_PATH_SP + "/section", (req, res) => {
+        var section = req.query.section;
+        console.log(Date() + " - GET /spending-policies?section=" + section);
 
         db.find({ "section": section }).toArray((err, spendingPolicie) => {
             if (err) {
@@ -114,9 +114,9 @@ spendingPoliciesApi.register = function(app, db) {
         });
     });
 
-    app.get(BASE_API_PATH_SP + "/community=:community", (req, res) => {
-        var community = req.params.community;
-        console.log(Date() + " - GET /spending-policies/community=" + community);
+    app.get(BASE_API_PATH_SP + "/community", (req, res) => {
+        var community = req.query.community;
+        console.log(Date() + " - GET /spending-policies?community=" + community);
 
         db.find({ "community": community }).toArray((err, spendingPolicie) => {
             if (err) {
@@ -135,11 +135,31 @@ spendingPoliciesApi.register = function(app, db) {
         });
     });
 
-    app.get(BASE_API_PATH_SP + "/year=:year", (req, res) => {
-        var year = parseInt(req.params.year);
-        console.log(Date() + " - GET /spending-policies/year=" + year);
+    app.get(BASE_API_PATH_SP + "/year", (req, res) => {
+        var year = parseInt(req.query.year);
+        console.log(Date() + " - GET /spending-policies?year=" + year);
 
-        db.find({ "year": year }).toArray((err, spendingPolicie) => {
+        db.find({ "year": {$gte: year} }).toArray((err, spendingPolicie) => {
+            if (err) {
+                console.error("Error accesing DB");
+                res.sendStatus(500);
+                return;
+            }
+            if (spendingPolicie.length == 0) {
+                res.sendStatus(404);
+                return;
+            }
+            res.send(spendingPolicie.map((c) => {
+                delete c._id;
+                return c;
+            }));
+        });
+    });
+
+    app.get(BASE_API_PATH_SP + "/percentagetotal", (req, res) => {
+        var x1 = parseFloat(req.query.percentagetotal);
+       
+        db.find({ "percentagetotal": {$gte: x1} }).toArray((err, spendingPolicie) => { //mayor o igual que x1
             if (err) {
                 console.error("Error accesing DB");
                 res.sendStatus(500);
@@ -157,33 +177,10 @@ spendingPoliciesApi.register = function(app, db) {
     });
 
 
-    app.get(BASE_API_PATH_SP + "/percentagetotal=:percentagetotal", (req, res) => {
-        var percentagetotal = parseFloat(req.params.percentagetotal);
-        console.log(Date() + " - GET /spending-policies/percentagetotal=" + percentagetotal);
-
-        db.find({ "percentagetotal": percentagetotal }).toArray((err, spendingPolicie) => {
-            if (err) {
-                console.error("Error accesing DB");
-                res.sendStatus(500);
-                return;
-            }
-            if (spendingPolicie.length == 0) {
-                res.sendStatus(404);
-                return;
-            }
-            res.send(spendingPolicie.map((c) => {
-                delete c._id;
-                return c;
-            }));
-        });
-    });
-    
-    
-    app.get(BASE_API_PATH_SP + "/percentagevariable=:percentagevariable", (req, res) => {
-        var percentagevariable = parseFloat(req.params.percentagevariable);
-        console.log(Date() + " - GET /spending-policies/percentagevariable=" + percentagevariable);
-
-        db.find({ "percentagevariable": percentagevariable }).toArray((err, spendingPolicie) => {
+    app.get(BASE_API_PATH_SP + "/percentagevariable", (req, res) => {
+        var x1 = parseFloat(req.query.percentagevariable);
+       
+        db.find({ "percentagevariable": { $gte: x1} }).toArray((err, spendingPolicie) => { //mayor o igual que x1 
             if (err) {
                 console.error("Error accesing DB");
                 res.sendStatus(500);
