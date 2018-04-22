@@ -54,17 +54,17 @@ app.get(BASE_API_PATH_LAWS + "/docs", (req,res)=>{
 app.get(BASE_API_PATH_LAWS + "/loadInitialData", (req, res) => {
  console.log(Date() + " - GET /loadInitialData" + InitialBudgetsLaws);
 
- db.find({}).toArray((err, budgetsLaws)=>{ //budgetsLaws
+ db.find({}).toArray((err, budgetsLaws)=>{ 
     if(err){
         console.log("Error acccesing DB");
         process.exit(1);
         return;
         }
-    if(budgetsLaws.length == 0){ //budgetsLaws
+    if(budgetsLaws.length == 0){ 
         console.log("Empty DB");
         db.insert(InitialBudgetsLaws);
     }
-    res.send(budgetsLaws.map((c)=> { //budgetsLaws
+    res.send(budgetsLaws.map((c)=> { 
             delete c._id;
             return c;
         }));
@@ -182,14 +182,14 @@ app.get(BASE_API_PATH_LAWS + "/budget-of-capital=:x1&:x2", (req, res) => {
 app.get(BASE_API_PATH_LAWS,(req,res)=>{
    console.log(Date() + " - GET /budgets-laws");
 
-   db.find({}).toArray((err, budgetsLaws)=>{ //budgetsLaws
+   db.find({}).toArray((err, budgetsLaws)=>{ 
     if(err){
         console.error("Error accesing DB");
         res.sendStatus(500);
         return;
     }
 
-    res.send(budgetsLaws.map((c)=>{ //budgetsLaws
+    res.send(budgetsLaws.map((c)=>{ 
         delete c._id;
         return c;
     }));

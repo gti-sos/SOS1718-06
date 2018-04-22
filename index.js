@@ -211,7 +211,7 @@ budgetsLawsApi.register(app, db);
 
     MongoClient.connect(mdbSpendingPliciesURL, { native_parser: true }, (err, mlabs) => {
         if (err) {
-            console.error("Error accesing DB:" + err);
+            console.error("Error accesing DB:" + err);s
             process.exit(1);
         }
 
