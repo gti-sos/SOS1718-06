@@ -3,9 +3,9 @@
 
 angular
     .module("budgetsLawsApp")
-    .controller("ListCtrlBL", ["$scope", "$http", function($scope, $http) { //$scope permite acceder a los datos, al modelo.
+    .controller("listCtrlBL", ["$scope", "$http", function($scope, $http) { //$scope permite acceder a los datos, al modelo.
         console.log("List Ctrl Budgets Laws initialized!"); //$http establece la conexión entre el navegador del usuario y el servidor (backend).
-        var api = "api/v1/budgets-laws";
+        var api = "/api/v1/budgets-laws";
 
         $scope.addBudgetsLaw = function() {
             $http.post(api, $scope.newBudgetsLaw).then(function(response) {

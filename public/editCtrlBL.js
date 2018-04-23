@@ -15,7 +15,7 @@ angular
         $scope.updateBudgetsLaw = function() {
             $http.put(budgetsLawURL, $scope.updatedBudgetsLaw).then(function(response) {
                 $scope.status = "Status: " + response.status;
-                $location.path("/budgetsLaws");
+                
             },function(){
                     var i;
                     for(i=0;i<$scope.length;i++){
