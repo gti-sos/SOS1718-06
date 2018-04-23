@@ -1,0 +1,28 @@
+<!--Vista-->
+
+<h1>Edit Budgets Law</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Community</th>
+            <th>Year</th>
+            <th>Section</th>
+            <th>Budget Of Capital</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{updatedBudgetsLaw.community}}</td>
+            <td>{{updatedBudgetsLaw.year}}</td>
+            <td>{{updatedBudgetsLaw.section}}</td>
+            <td><input class="form-control" ng-model="updatedBudgetsLaw.budgetofcapital" /> </td>
+            <td><input class="form-control" ng-model="updatedBudgetsLaw.total" /> </td>
+            <td><button class="button btn-primary" ng-click="updateBudgetsLaw()">
+                Update
+            </button></td>
+        </tr>
+    </tbody>
+</table>
+<hr/>
+<h8><i>{{status}}</i></h8>
