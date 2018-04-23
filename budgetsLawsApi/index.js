@@ -144,7 +144,7 @@ app.get(BASE_API_PATH_LAWS + "/loadInitialData", (req, res) => {
     });
 });
 
-
+/*
 //paginacion
 app.get(BASE_API_PATH_LAWS + "/limit=:limit&offset=:offset", (req, res) => {
         var limit = parseInt(req.params.limit);
@@ -246,7 +246,7 @@ app.get(BASE_API_PATH_LAWS + "/budget-of-capital=:x1&:x2", (req, res) => {
                return c;
             }));
         });
-    }); 
+    }); */
 
 
 

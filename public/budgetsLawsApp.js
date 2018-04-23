@@ -10,7 +10,7 @@ angular
                 templateUrl: "listBL.html",
                 controller: "listCtrlBL"
             })
-            .when("/budgetsLaw/:section", {
+            .when("/:section", {
                 templateUrl: "editBL.html",
                 controller: "EditCtrlBL"
             });
