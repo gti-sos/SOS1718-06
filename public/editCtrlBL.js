@@ -1,9 +1,7 @@
 /*global angular*/
-//Controlador
-
 angular
     .module("budgetsLawsApp")
-    .controller("EditCtrlBL", ["$scope", "$http", "$routeParams", "$location", function($scope, $http, $routeParams, $location) { //$scope permite acceder a los datos, al modelo.
+    .controller("editCtrlBL", ["$scope", "$http", "$routeParams", "$location", function($scope, $http, $routeParams, $location) { //$scope permite acceder a los datos, al modelo.
         console.log("Edit Ctrl Budgets Law initialized!"); //$http establece la conexión entre el navegador del usuario y el servidor (backend).
         var budgetsLawURL = "/api/v1/budgets-laws/" + $routeParams.section;
 

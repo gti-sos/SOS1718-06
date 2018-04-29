@@ -1,4 +1,4 @@
-<h1>Budgets Law list</h1>
+<h1>Budgets Laws list</h1>
 <table class="table">
     <thead>
         <tr>
@@ -13,21 +13,21 @@
     <tbody>
         <tr>
             <td><input class="form-control" ng-model="newBudgetsLaw.community" /> </td>
-            <td><input class="form-control" ng-model="newBudgetsLaw.year" /> </td>
+            <td><input type="number" class="form-control" ng-model="newBudgetsLaw.year" /> </td>
             <td><input class="form-control" ng-model="newBudgetsLaw.section" /> </td>
-            <td><input class="form-control" ng-model="newBudgetsLaw.budgetofcapital" /> </td>
-            <td><input class="form-control" ng-model="newBudgetsLaw.total" /> </td>
+            <td><input type="number" class="form-control" ng-model="newBudgetsLaw.budgetofcapital" /> </td>
+            <td><input type="number" class="form-control" ng-model="newBudgetsLaw.total" /> </td>
             <td><button class="button btn-primary" ng-click="addBudgetsLaw()">
                 Add
             </button></td>
         </tr>
         <tr ng-repeat="budgetsLaw in budgetsLaws">
-            <td><a href="/budgetsLawsApp.html#!/budgetsLaws/{{budgetsLaw.section}}">{{budgetsLaw.section}}</a></td>
-            <td>{{budgetsLaw.community}}</td>
-            <td>{{budgetsLaw.year}}</td>
-            <td>{{budgetsLaw.budgetofcapital}}</td>
-            <td>{{budgetsLaw.total}}</td>
-            <td><button class="button btn-danger" ng-click="deleteBudgetsLaw(budgetsLaw.section)">Delete</button></td>
+            <td><a href="/budgetsLawsApp.html#!/section/{{section.section}}">{{section.section}}</a></td>
+            <td>{{section.community}}</td>
+            <td>{{section.year}}</td>
+            <td>{{section.budgetofcapital}}</td>
+            <td>{{section.total}}</td>
+            <td><button class="button btn-danger" ng-click="deleteBudgetsLaw(section.section)">Delete</button></td>
         </tr>
         <tr>
             <td><button class="button btn-danger" ng-click="deleteBudgetsLaws()">Delete all</button></td>

@@ -1,5 +1,3 @@
-<!--Vista-->
-
 <h1>Edit Budgets Law</h1>
 <table class="table">
     <thead>
@@ -15,10 +13,10 @@
     <tbody>
         <tr>
             <td>{{updatedBudgetsLaw.community}}</td>
-            <td>{{updatedBudgetsLaw.year}}</td>
+            <td><input type="number" class="form-control" ng-model="updateBudgetsLaw.year"/</td>
             <td>{{updatedBudgetsLaw.section}}</td>
-            <td><input class="form-control" ng-model="updatedBudgetsLaw.budgetofcapital" /> </td>
-            <td><input class="form-control" ng-model="updatedBudgetsLaw.total" /> </td>
+            <td><input type="number" class="form-control" ng-model="updatedBudgetsLaw.budgetofcapital" /> </td>
+            <td><input type="number" class="form-control" ng-model="updatedBudgetsLaw.total" /> </td>
             <td><button class="button btn-primary" ng-click="updateBudgetsLaw()">
                 Update
             </button></td>

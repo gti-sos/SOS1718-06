@@ -1,6 +1,4 @@
 /* global angular*/
-//Controlador
-
 angular
     .module("budgetsLawsApp")
     .controller("listCtrlBL", ["$scope", "$http", function($scope, $http) { //$scope permite acceder a los datos, al modelo.
