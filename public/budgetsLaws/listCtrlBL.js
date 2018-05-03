@@ -5,16 +5,17 @@ angular
         console.log("List Ctrl Budgets Laws initialized!"); //$http establece la conexión entre el navegador del usuario y el servidor (backend).
         var api = "/api/v1/budgets-laws";
 
-        $scope.addBudgetsLaw = function() {
-            $http.post(api, $scope.newBudgetsLaw).then(function(response) {
+        $scope.addBudgetLaw = function() {
+            $http.post(api, $scope.newbudgetLaw).then(function(response) {
                 $scope.status = "Status: " + response.status;
                 getBudgetsLaws();
-            },function(){
-                    if($scope.length!=5){
-                    $scope.status="Error 400: debe completar todos los campos";
-                    }else{
-                    $scope.status="Error 409: la estadistica ya existe";
-                    }    
+            }, function() {
+                if ($scope.length != 5) {
+                    $scope.status = "Error 400: debe completar todos los campos";
+                }
+                else {
+                    $scope.status = "Error 409: la estadistica ya existe";
+                }
             });
         };
 
@@ -27,8 +28,8 @@ angular
             });
             getBudgetsLaws();
         };
-        
-         $scope.deleteBudgetsLaws = function() {
+
+        $scope.deleteAllBudgetsLaws = function() {
             console.log("Budgets Laws deleted: ");
 
             $http.delete(api + "/").then(function(response) {
