@@ -4,11 +4,11 @@ angular
     .config(function($routeProvider) {
         $routeProvider
             .when("/", {
-                templateUrl: "listBL.html",
-                controller: "listCtrlBL"
+                templateUrl: "list.html",
+                controller: "listCtrl"
             })
             .when("/:section", {
-                templateUrl: "editBL.html",
-                controller: "editCtrlBL"
+                templateUrl: "edit.html",
+                controller: "editCtrl"
             });
     });

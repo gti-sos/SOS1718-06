@@ -1,12 +1,12 @@
 /* global angular*/
 angular
     .module("budgetsLawsApp")
-    .controller("listCtrlBL", ["$scope", "$http", function($scope, $http) { //$scope permite acceder a los datos, al modelo.
+    .controller("listCtrl", ["$scope", "$http", function($scope, $http) { //$scope permite acceder a los datos, al modelo.
         console.log("List Ctrl Budgets Laws initialized!"); //$http establece la conexión entre el navegador del usuario y el servidor (backend).
         var api = "/api/v1/budgets-laws";
 
-        $scope.addBudgetLaw = function() {
-            $http.post(api, $scope.newbudgetLaw).then(function(response) {
+        $scope.addBudget = function() {
+            $http.post(api, $scope.newBudget).then(function(response) {
                 $scope.status = "Status: " + response.status;
                 getBudgetsLaws();
             }, function() {
@@ -19,7 +19,7 @@ angular
             });
         };
 
-        $scope.deleteBudgetsLaw = function(section) {
+        $scope.deleteBudget = function(section) {
             console.log("Budgets Law to be deleted: " + section);
 
             $http.delete(api + "/" + section).then(function(response) {
@@ -29,14 +29,13 @@ angular
             getBudgetsLaws();
         };
 
-        $scope.deleteAllBudgetsLaws = function() {
+        $scope.deleteAllBudgets = function() {
             console.log("Budgets Laws deleted: ");
 
-            $http.delete(api + "/").then(function(response) {
+            $http.delete(api).then(function(response) {
                 $scope.status = "Status: " + response.status;
                 getBudgetsLaws();
             });
-            getBudgetsLaws();
         };
 
 
