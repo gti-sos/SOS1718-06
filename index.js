@@ -8,9 +8,6 @@ var port = (process.env.PORT || 1607);
 
 var mdbBudgetsLawsURL = "mongodb://dbaom:sos1718-06@ds231559.mlab.com:31559/sos1718-aom-sandbox";
 
-
-/* NUEVO L07 : crear variable para ejecución de la api */
-
 var budgetsLawsApi = require("./budgetsLawsApi");
 
 var app = express();
@@ -73,7 +70,7 @@ MongoClient.connect(mdbBudgetsLawsURL, { native_parser: true }, (err, mlabs) => 
     console.log("Conected to DB in mlabs");
 
     var budgetsLawsDataBase = mlabs.db("sos1718-aom-sandbox");
-    var budgetsLawsdb = budgetsLawsDataBase.collection("spanUnivStats");
+    var budgetsLawsdb = budgetsLawsDataBase.collection("budgetsLaws");
 
     budgetsLawsApi.register(app, budgetsLawsdb, InitialBudgetsLaws);
 
