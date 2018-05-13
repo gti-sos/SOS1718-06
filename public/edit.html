@@ -1,0 +1,28 @@
+<h1>Tvfees Stadistic</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>community</th>
+            <th>year</th>
+            <th>section</th>
+            <th>budget of capital</th>
+            <th>total</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>{{updatedBudget.community}}</td>
+            <td><input type="number" class="form-control" ng-model="updatedBudget.year" /></td>
+            <td>{{updatedBudget.section}}</td>
+            <td><input type="number" class="form-control" ng-model="updatedBudget.budgetofcapital" /></td>
+            <td><input type="number" class="form-control" ng-model="updatedBudget.total" /></td>
+            <td><button class="button btn-primary" ng-click="updateBudget()">
+                Update
+            </button></td>
+        </tr>
+    </tbody>
+</table>
+<hr/>
+<h8><i>{{status}}</i></h8>

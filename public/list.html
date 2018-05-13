@@ -1,0 +1,65 @@
+<h1>Tvfees List</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>community</th>
+            <th>Year</th>
+            <th>section</th>
+            <th>budget of capital</th>
+            <th>total</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td><input class="form-control" ng-model="newbudget.community" /></td>
+            <td><input type="number" class="form-control" ng-model="newbudget.year" /></td>
+            <td><input class="form-control" ng-model="newbudget.section" /></td>
+            <td><input type="number" class="form-control" ng-model="newbudget.budgetofcapital" /></td>
+            <td><input type="number" class="form-control" ng-model="newbudget.total" /></td>
+            <td><button class="button btn-primary" ng-click="addBudget()">
+                Add
+            </button></td>
+        </tr>
+        <tr ng-repeat="budget in budgets">
+            <td><a href="/App.html#!/budgets-laws/{{budget.section}}">{{budget.section}}</a></td>
+            <td>{{budget.year}}</td>
+            <td>{{budget.community}}</td>
+            <td>{{budget.budgetofcapital}}</td>
+            <td>{{budget.total}}</td>
+            <td><button class="button btn-danger" ng-click="deleteBudget(budget.section)">Delete</button></td>
+        </tr>
+        <tr>
+            <td><input name="limit" class="form-control" type="number" ng-model="limit" ng-init="limit='10'" /></td>
+            <td><input name="offset" class="form-control" type="number" ng-model="offset" ng-init="offset='0'" /></td>
+            <td><button class="button btn-primary" ng-click="paginacion()">Paginar</button></td>
+            <td><button class="button btn-secondary" ng-click="obtenerpaginaAnterior()">Anterior</button></td>
+            <td><button class="button btn-secondary" ng-click="obtenerpaginaSiguiente()">Siguiente</button></td>
+        </tr>
+        <tr>
+            <td>
+
+                <select class="form-control" ng-model="atributo" ng-init="atributo='section'">
+                                <option value="" disabled selected>Campo Búsqueda</option>
+                                <option value="section">section</option>
+                                <option value="community">community</option>
+                                <option value="year">year</option>
+                                <option value="budgetofcapital">budgetofcapital</option>
+                                <option value="total">total</option>
+                              </select>
+            </td>
+            <td><input placeholder="valor" name="valor" class="form-control" ng-model="valor" /></td>
+            <td><button class="button btn-primary" ng-click="busqueda()">Search</button></td>
+        </tr>
+        <tr>
+            <td><button class="button btn-danger" ng-click="deleteBudgets()">Delete All</button></td>
+        </tr>
+    </tbody>
+
+</table>
+<div><a href="/App.html#!/budgets-laws/analytics/">Analytics graphs</a></div>
+<div><a href="/App.html#!/budgets-laws/compartidas/">Integration graphs</a></div>
+
+<hr/>
+<h8><i>{{status}}</i></h8>
