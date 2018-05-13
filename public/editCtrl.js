@@ -1,5 +1,5 @@
 /* global angular */
-angular.module("App")
+angular.module("app")
   .controller("editCtrl", ["$scope","$http","$routeParams","$location", function($scope,$http,$routeParams,$location) {
             console.log("Edit Ctrl initialized!");
             var budgetUrl = "/api/v1/budgets-laws/"+$routeParams.section ;

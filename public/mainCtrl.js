@@ -4,7 +4,7 @@
 /*global uv*/
 "use strict"
 angular
-    .module("App")
+    .module("app")
     .controller("mainCtrl", ["$scope", "$http", function($scope, $http) {
 
 

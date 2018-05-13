@@ -4,7 +4,7 @@ var path = require("path");
 describe('Add budget', function(){
     it('should add a new budget', function(){
         browser
-        .get('https://sos1718-06.herokuapp.com/App.html#!/budgets-laws')
+        .get('https://sos1718-06.herokuapp.com/app.html#!/budgets-laws')
         .then(function(){
             element.all(by.repeater('budget in budgets'))
             .then(function(InitialBudgetsLaws){

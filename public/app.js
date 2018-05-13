@@ -1,6 +1,6 @@
 /*global angular*/
 angular
-    .module("App", ["ngRoute"])
+    .module("app", ["ngRoute"])
         .config(function($routeProvider){
             $routeProvider
                 .when("/budgets-laws",{

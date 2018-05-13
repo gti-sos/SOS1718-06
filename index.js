@@ -7,7 +7,7 @@ var request = require("request");
 
 var MongoClient = require("mongodb").MongoClient;
 
-var budgetsLawsApi = require("./budgetsLawsApi");
+var budgetsLawsApi = require("./budgetsLawsApi/budgetsLaws");
 
 var port = (process.env.PORT || 1607);
 

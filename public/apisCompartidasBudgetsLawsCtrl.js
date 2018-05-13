@@ -7,7 +7,7 @@ angular.module("App")
     .controller("apisCompartidasBudgetsLawsCtrl", ["$scope", "$http", function($scope, $http) {
         console.log("List Ctrl initialized!");
         var apiPropia = "/api/v1/budgets-laws"
-        var api1 = "https://sos1718-01.herokuapp.com/api/v1/goals-stats";
+        var api1 = "https://sos1718-06.herokuapp.com/api/v1/budgets-laws";
 
 
         $http.get(api1).then(function(response1) {
