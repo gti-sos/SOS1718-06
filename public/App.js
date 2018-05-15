@@ -1,6 +1,6 @@
 /*global angular*/
 angular
-    .module("app", ["ngRoute"])
+    .module("App", ["ngRoute"])
         .config(function($routeProvider){
             $routeProvider
                 .when("/budgets-laws",{
@@ -11,7 +11,7 @@ angular
                     controller: "editCtrl"
                 }).when("/analytics",{
                     templateUrl:"analytics.html"
-                }).when("/budgets-laws/analytics",{
+                }).when("/analytics/budgets-laws",{
                     templateUrl:"main.html",
                     controller: "mainCtrl"
                 }).when("/budgets-laws/compartidas",{

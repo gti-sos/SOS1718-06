@@ -1,24 +1,26 @@
 /* global angular */
 angular
-    .module("app")
+    .module("App")
     .controller("listCtrl", ["$scope", "$http", function($scope, $http) {
         console.log("List Ctrl initialized!");
         var api = "/api/v1/budgets-laws";
 
-        $scope.addStat = function() {
+        $scope.addBudget = function() {
             $http.post(api, $scope.newbudget).then(function(response) {
-                $scope.status = "Recurso creado";
+                $scope.status = "Budget creado con éxito";
                 getBudgets();
             }, function() {
-                if ($scope.length != 6) {
-                    $scope.status = "Error 400: debe completar todos los campos";
+                if ($scope.length != 5) {
+                    $scope.status = "Debe completar todos los campos";
                 }
                 else {
-                    $scope.status = "Error 409: la estadistica ya existe";
+                    $scope.status = "La estadistica ya existe";
                 }
             });
+            getBudgets();
         };
-        $scope.deleteStat = function(section) {
+
+        $scope.deleteBudget = function(section) {
             console.log("Stadistic to be delete :" + section);
             $http.delete(api + "/" + section).then(function(response) {
                 $scope.status = "Recurso borrado";

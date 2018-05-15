@@ -1,4 +1,4 @@
-<h1>Tvfees List</h1>
+<h1>Budgets Laws</h1>
 <table class="table">
     <thead>
         <tr>
@@ -13,19 +13,19 @@
 
     <tbody>
         <tr>
-            <td><input class="form-control" ng-model="newbudget.community" /></td>
-            <td><input type="number" class="form-control" ng-model="newbudget.year" /></td>
-            <td><input class="form-control" ng-model="newbudget.section" /></td>
-            <td><input type="number" class="form-control" ng-model="newbudget.budgetofcapital" /></td>
-            <td><input type="number" class="form-control" ng-model="newbudget.total" /></td>
+            <td><input class="form-control" ng-model="newbudget.community"/></td>
+            <td><input type="number" class="form-control" ng-model="newbudget.year"/></td>
+            <td><input class="form-control" ng-model="newbudget.section"/></td>
+            <td><input type="number" class="form-control" ng-model="newbudget.budgetofcapital"/></td>
+            <td><input type="number" class="form-control" ng-model="newbudget.total"/></td>
             <td><button class="button btn-primary" ng-click="addBudget()">
                 Add
             </button></td>
         </tr>
         <tr ng-repeat="budget in budgets">
-            <td><a href="/app.html#!/budgets-laws/{{budget.section}}">{{budget.section}}</a></td>
-            <td>{{budget.year}}</td>
             <td>{{budget.community}}</td>
+            <td>{{budget.year}}</td>
+            <td><a href="/App.html#!/budgets-laws/{{budget.section}}">{{budget.section}}</a></td>
             <td>{{budget.budgetofcapital}}</td>
             <td>{{budget.total}}</td>
             <td><button class="button btn-danger" ng-click="deleteBudget(budget.section)">Delete</button></td>
@@ -40,11 +40,11 @@
         <tr>
             <td>
 
-                <select class="form-control" ng-model="atributo" ng-init="atributo='section'">
+                <select class="form-control" ng-model="atributo" ng-init="atributo='community'">
                                 <option value="" disabled selected>Campo Búsqueda</option>
-                                <option value="section">section</option>
                                 <option value="community">community</option>
                                 <option value="year">year</option>
+                                <option value="section">section</option>
                                 <option value="budgetofcapital">budgetofcapital</option>
                                 <option value="total">total</option>
                               </select>
@@ -58,8 +58,8 @@
     </tbody>
 
 </table>
-<div><a href="/app.html#!/budgets-laws/analytics/">Analytics graphs</a></div>
-<div><a href="/app.html#!/budgets-laws/compartidas/">Integration graphs</a></div>
+<div><a href="/App.html#!/analytics/budgets-laws">Analytics graphs</a></div>
+<div><a href="/App.html#!/budgets-laws/compartidas/">Integration graphs</a></div>
 
 <hr/>
 <h8><i>{{status}}</i></h8>
