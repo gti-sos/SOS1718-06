@@ -7,36 +7,36 @@ var InitialBudgetsLaws = [{
         "community": "andalucia",
         "year": 2017,
         "section": "Agencia-publica-empresarial-de-la-radio-y-television-de-andalucia-RTVA-consolidado",
-        "budgetofcapital": 5.779,
-        "total": 169.400
+        "budgetofcapital": 5779,
+        "total": 169400
     },
     {
         "community": "andalucia",
         "year": 2017,
         "section": "Agencia-publica-empresarial-de-la-radio-y-television-de-andalucia-RTVA",
-        "budgetofcapital": 968.284,
-        "total": 161.032
+        "budgetofcapital": 968284,
+        "total": 161032
     },
     {
         "community": "andalucia",
         "year": 2017,
         "section": "Agencia-andaluza-del-conocimiento",
-        "budgetofcapital": 200.000,
-        "total": 7.248
+        "budgetofcapital": 200000,
+        "total": 7248
     },
     {
         "community": "andalucia",
         "year": 2017,
         "section": "Agencia-publica-andaluza-de-educacion",
-        "budgetofcapital": 1.000,
-        "total": 379.833
+        "budgetofcapital": 1000,
+        "total": 379833
     },
     {
         "community": "andalucia",
         "year": 2017,
         "section": "Agencia-publica-empresarial-sanitaria-bajo-Guadalquivir",
-        "budgetofcapital": 800.000,
-        "total": 892.169
+        "budgetofcapital": 800000,
+        "total": 892169
     }
 ];
 
