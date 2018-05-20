@@ -2,66 +2,125 @@ var spendingPoliciesApi = {};
 var BASE_API_PATH = "/api/v1";
 var BASE_API_PATH_SP = "/api/v1/spending-policies";
 
+
 module.exports = spendingPoliciesApi;
+
+var initialSpendingPolicies = [{
+        "section": "GastosDePersonal",
+        "community": "Andalucia",
+        "year": 2017,
+        "percentagetotal": 30.8,
+        "percentagevariable": 1.7
+    },
+    {
+        "section": "GastosCorrientesEnBienesYServicios",
+        "community": "Andalucia",
+        "year": 2017,
+        "percentagetotal": 9.9,
+        "percentagevariable": 12.9
+    },
+    {
+        "section": "GastosFinancieros",
+        "community": "Andalucia",
+        "year": 2017,
+        "percentagetotal": 1.5,
+        "percentagevariable": -5.1
+    },
+    {
+        "section": "TransferenciasCorrientes",
+        "community": "Andalucia",
+        "year": 2017,
+        "percentagetotal": 35.4,
+        "percentagevariable": 1.4
+    },
+    {
+        "section": "InversionesReales",
+        "community": "Andalucia",
+        "year": 2017,
+        "percentagetotal": 4,
+        "percentagevariable": 10.3
+    }
+];
 
 
 spendingPoliciesApi.register = function(app, db) {
     console.log("Registering routes for spending policies API...");
 
-    app.get(BASE_API_PATH_SP + "/docs", (req, res) => {
+    var buscador = function(base, aux_set, param_section, param_community, param_year, param_percentagetotal, param_percentagevariable) {
+
+
+        if (param_section != undefined || param_community != undefined || param_year != undefined || param_percentagetotal != undefined || param_percentagevariable != undefined) {
+
+            for (var j = 0; j < base.length; j++) {
+
+                var section = base[j].section;
+                var community = base[j].community;
+                var year = parseInt(base[j].year);
+                var percentagetotal = base[j].percentagetotal;
+                var percentagevariable = base[j].percentagevariable;
+
+                // Section
+                if (param_section != undefined && param_community == undefined && param_year == undefined && param_percentagetotal == undefined && param_percentagevariable == undefined) {
+                    if (param_section == section) {
+                        aux_set.push(base[j]);
+                    }
+
+                }
+                //Community
+                else if (param_section == undefined && param_community != undefined && param_year == undefined && param_percentagetotal == undefined && param_percentagevariable == undefined) {
+                    if (param_community == community) {
+                        aux_set.push(base[j]);
+                    }
+
+                }
+                //Year
+                else if (param_section == undefined && param_community == undefined && param_year != undefined && param_percentagetotal == undefined && param_percentagevariable == undefined) {
+                    if (param_year == year) {
+                        aux_set.push(base[j]);
+                    }
+                }
+                //Percentagetotal
+                else if (param_section == undefined && param_community == undefined && param_year == undefined && param_percentagetotal != undefined && param_percentagevariable == undefined) {
+                    if (param_percentagetotal == percentagetotal) {
+                        aux_set.push(base[j]);
+                    }
+
+                }
+                //Percentagevariable
+                else if (param_section == undefined && param_community == undefined && param_year == undefined && param_percentagetotal == undefined && param_percentagevariable != undefined) {
+                    if (param_percentagevariable == percentagevariable) {
+                        aux_set.push(base[j]);
+                    }
+                }
+            }
+        }
+        return aux_set;
+
+    };
+
+    app.get(BASE_API_PATH + "/docs", (req, res) => {
         res.redirect("https://documenter.getpostman.com/view/3910868/RVu4Gq2r"); //postman
     });
 
-    var initialSpendingPolicies = [{
-            "section": "GastosDePersonal",
-            "community": "Andalucia",
-            "year": 2017,
-            "percentagetotal": 30.8,
-            "percentagevariable": 1.7
-        },
-        {
-            "section": "GastosCorrientesEnBienesYServicios",
-            "community": "Andalucia",
-            "year": 2017,
-            "percentagetotal": 9.9,
-            "percentagevariable": 12.9
-        },
-        {
-            "section": "GastosFinancieros",
-            "community": "Andalucia",
-            "year": 2017,
-            "percentagetotal": 1.5,
-            "percentagevariable": -5.1
-        },
-        {
-            "section": "TransferenciasCorrientes",
-            "community": "Andalucia",
-            "year": 2017,
-            "percentagetotal": 35.4,
-            "percentagevariable": 1.4
-        },
-        {
-            "section": "InversionesReales",
-            "community": "Andalucia",
-            "year": 2017,
-            "percentagetotal": 4,
-            "percentagevariable": 10.3
-        }
-    ];
 
     //loadInitialData
     app.get(BASE_API_PATH_SP + "/loadInitialData", (req, res) => {
-        console.log(Date() + " - GET /loadInitialData" + initialSpendingPolicies);
+        console.log(Date() + " - GET /loadInitialData");
 
         db.find({}).toArray((err, spendingPolicies) => {
             if (err) {
-                console.log("Error acccesing DB");
-                process.exit(1);
+                console.error("Error acccesing DB");
+                res.sendStatus(500);
                 return;
             }
             if (spendingPolicies.length == 0) {
                 console.log("Empty DB");
                 db.insert(initialSpendingPolicies);
+                res.sendStatus(200);
+            }
+            else {
+                console.log("DB initialized with " + spendingPolicies.length + "spendingPolicies");
+                res.sendStatus(200);
             }
             res.send(spendingPolicies.map((c) => {
                 delete c._id;
@@ -70,152 +129,27 @@ spendingPoliciesApi.register = function(app, db) {
         });
 
     });
-    
-    //------Paginación----------
-
-    app.get(BASE_API_PATH_SP + "/paginacion", (req, res) => {
-        var limit = parseInt(req.query.limit);
-        var offset = parseInt(req.query.offset);
-        console.log(Date() + " - GET /spending-policies" + "?limit=" + limit + "&offset=" + offset);
-
-        db.find({}).skip(offset).limit(limit).toArray((err, spendingPolicies) => {
-            if (err) {
-                console.error(" Error accesing DB");
-                res.sendStatus(500);
-                return;
-            }
-            res.send(spendingPolicies.map((c) => {
-                delete c._id;
-                return c;
-            }));
-        });
-    });
-
-    //------Búsquedas---------
-
-    app.get(BASE_API_PATH_SP + "/section", (req, res) => {
-        var section = req.query.section;
-        console.log(Date() + " - GET /spending-policies?section=" + section);
-
-        db.find({ "section": section }).toArray((err, spendingPolicie) => {
-            if (err) {
-                console.error("Error accesing DB");
-                res.sendStatus(500);
-                return;
-            }
-            if (spendingPolicie.length == 0) {
-                res.sendStatus(404);
-                return;
-            }
-            res.send(spendingPolicie.map((c) => {
-                delete c._id;
-                return c;
-            }));
-        });
-    });
-
-    app.get(BASE_API_PATH_SP + "/community", (req, res) => {
-        var community = req.query.community;
-        console.log(Date() + " - GET /spending-policies?community=" + community);
-
-        db.find({ "community": community }).toArray((err, spendingPolicie) => {
-            if (err) {
-                console.error("Error accesing DB");
-                res.sendStatus(500);
-                return;
-            }
-            if (spendingPolicie.length == 0) {
-                res.sendStatus(404);
-                return;
-            }
-            res.send(spendingPolicie.map((c) => {
-                delete c._id;
-                return c;
-            }));
-        });
-    });
-
-    app.get(BASE_API_PATH_SP + "/year", (req, res) => {
-        var year = parseInt(req.query.year);
-        console.log(Date() + " - GET /spending-policies?year=" + year);
-
-        db.find({ "year": {$gte: year} }).toArray((err, spendingPolicie) => {
-            if (err) {
-                console.error("Error accesing DB");
-                res.sendStatus(500);
-                return;
-            }
-            if (spendingPolicie.length == 0) {
-                res.sendStatus(404);
-                return;
-            }
-            res.send(spendingPolicie.map((c) => {
-                delete c._id;
-                return c;
-            }));
-        });
-    });
-
-    app.get(BASE_API_PATH_SP + "/percentagetotal", (req, res) => {
-        var x1 = parseFloat(req.query.percentagetotal);
-       
-        db.find({ "percentagetotal": {$gte: x1} }).toArray((err, spendingPolicie) => { //mayor o igual que x1
-            if (err) {
-                console.error("Error accesing DB");
-                res.sendStatus(500);
-                return;
-            }
-            if (spendingPolicie.length == 0) {
-                res.sendStatus(404);
-                return;
-            }
-            res.send(spendingPolicie.map((c) => {
-                delete c._id;
-                return c;
-            }));
-        });
-    });
 
 
-    app.get(BASE_API_PATH_SP + "/percentagevariable", (req, res) => {
-        var x1 = parseFloat(req.query.percentagevariable);
-       
-        db.find({ "percentagevariable": { $gte: x1} }).toArray((err, spendingPolicie) => { //mayor o igual que x1 
-            if (err) {
-                console.error("Error accesing DB");
-                res.sendStatus(500);
-                return;
-            }
-            if (spendingPolicie.length == 0) {
-                res.sendStatus(404);
-                return;
-            }
-            res.send(spendingPolicie.map((c) => {
-                delete c._id;
-                return c;
-            }));
-        });
-    });
-    
 
+    /*  //------GET a todos los recursos-----
+      app.get(BASE_API_PATH + "/spending-policies", (req, res) => {
+          console.log(Date() + " - GET /spending-policies/");
 
-    //------GET a todos los recursos-----
-    app.get(BASE_API_PATH + "/spending-policies", (req, res) => {
-        console.log(Date() + " - GET /spending-policies");
+          db.find({}).toArray((err, spendingPolicies) => {
+              if (err) {
+                  console.error("Error accesing DB");
+                  res.sendStatus(500);
+                  return;
+              }
 
-        db.find({}).toArray((err, spendingPolicies) => {
-            if (err) {
-                console.error("Error accesing DB");
-                res.sendStatus(500);
-                return;
-            }
+              res.send(spendingPolicies.map((c) => {
+                  delete c._id;
+                  return c;
+              }));
+          });
+      }); */
 
-            res.send(spendingPolicies.map((c) => {
-                delete c._id;
-                return c;
-            }));
-        });
-    });
 
     //------POST a todos los recursos-------
     app.post(BASE_API_PATH + "/spending-policies", (req, res) => {
@@ -223,7 +157,7 @@ spendingPoliciesApi.register = function(app, db) {
         var spendingPolicie = req.body;
 
         if (Object.keys(spendingPolicie).length > 5 || !spendingPolicie.hasOwnProperty("section") || !spendingPolicie.hasOwnProperty("community") ||
-            !spendingPolicie.hasOwnProperty("year") || !spendingPolicie.hasOwnProperty("percentage-total") || !spendingPolicie.hasOwnProperty("percentage-variable")) {
+            !spendingPolicie.hasOwnProperty("year") || !spendingPolicie.hasOwnProperty("percentagetotal") || !spendingPolicie.hasOwnProperty("percentagevariable")) {
             res.sendStatus(400);
             return;
         }
@@ -235,7 +169,7 @@ spendingPoliciesApi.register = function(app, db) {
         db.find({ "section": spendingPolicie.section }).toArray((err, spendingPolicies) => {
             if (err) {
                 console.log("error accesing db");
-                res.sendStatus(400);
+                res.sendStatus(500);
             }
             if (spendingPolicies.length > 0) {
                 console.log("warning");
@@ -259,9 +193,7 @@ spendingPoliciesApi.register = function(app, db) {
     app.delete(BASE_API_PATH + "/spending-policies", (req, res) => {
         console.log(Date() + " - DELETE /spending-policies");
         spendingPolicies = [];
-
         db.remove({});
-
         res.sendStatus(200);
 
     });
@@ -295,15 +227,25 @@ spendingPoliciesApi.register = function(app, db) {
         var section = req.params.section;
         console.log(Date() + " - DELETE /spending-policies/" + section);
 
-        db.remove({ "section": section }, { multi: true }, (err, spendingPolicie) => {
+        db.find({ "section": section }).toArray((err, spendingPolicie) => {
+
             if (err) {
-                console.error("Error accesing DB");
+                console.error(" Error accesing DB");
                 res.sendStatus(500);
                 return;
             }
 
-            res.sendStatus(200);
+            if (spendingPolicie.length == 0) {
+                res.sendStatus(404);
+            }
+
+            else {
+                db.remove({ "section": section });
+                res.sendStatus(200);
+            }
+
         });
+
     });
 
     //------POST de un recurso concreto------
@@ -340,11 +282,99 @@ spendingPoliciesApi.register = function(app, db) {
 
         db.update({ "section": spendingPolicie.section }, spendingPolicie, (err, numUpdated) => {
             console.log("Updated: " + numUpdated);
-
-
         });
 
         res.sendStatus(200);
+    });
+
+
+    //Búsqueda
+    app.get(BASE_API_PATH + "/spending-policies", function(request, response) {
+
+        console.log("INFO: New GET request to /spending-policies");
+        
+        var limit = parseInt(request.query.limit);
+        var offset = parseInt(request.query.offset);
+        var section = request.query.section;
+        var community = request.query.community;
+        var year = request.query.year;
+        var percentagetotal = request.query.percentagetotal;
+        var percentagevariable = request.query.percentagevariable;
+        var aux = [];
+        var aux2 = [];
+        var aux3 = [];
+
+
+        if (limit || offset >= 0) {
+            db.find({}).skip(offset).limit(limit).toArray(function(err, spendingPolicies) {
+                if (err) {
+                    console.error('WARNING: Error getting data from DB');
+                    response.sendStatus(500); // internal server error
+                    return;
+                }
+                else {
+                    if (spendingPolicies.length === 0) {
+                        response.sendStatus(404); //No content
+                        return;
+                    }
+                    console.log("INFO: Sending params :: " + JSON.stringify(spendingPolicies, 2, null));
+                    if (section || community || year || percentagetotal || percentagevariable) {
+
+                        aux = buscador(spendingPolicies, aux, section, community, year, percentagetotal, percentagevariable);
+                        if (aux.length > 0) {
+                            aux2 = aux.slice(offset, offset + limit);
+
+                            response.send(aux2);
+                        }
+                        else {
+
+                            response.send(aux3); // No content 
+                            return;
+                        }
+                    }
+                    else {
+                        response.send(spendingPolicies.map((c) => {
+                            delete c._id;
+                            return c;
+                        }));
+                    }
+                }
+            });
+
+        }
+        else {
+
+            db.find({}).toArray(function(err, spendingPolicies) {
+                if (err) {
+                    console.error('ERROR from database');
+                    response.sendStatus(500); // internal server error
+                }
+                else {
+                    if (spendingPolicies.length === 0) {
+                        response.send(spendingPolicies);
+                        return;
+                    }
+
+                    if (section || community || year || percentagetotal || percentagevariable) {
+                        aux = buscador(spendingPolicies, aux, section, community, year, percentagetotal, percentagevariable);
+                        if (aux.length > 0) {
+                            response.send(aux);
+                        }
+                        else {
+                            response.sendStatus(404); //No content
+                            return;
+                        }
+                    }
+                    else {
+                        response.send(spendingPolicies.map((c) => {
+                            delete c._id;
+                            return c;
+                        }));
+                    }
+                }
+            });
+        }
+
     });
 
 
