@@ -96,7 +96,7 @@ app.use("/proxyALVARO", function(req, res) {
     req.pipe(request(url)).pipe(res);
 });
 
-//Spending Policies
+//-----------Spending Policies-------------------------------------------
 
 var initialSpendingPolicies = [{
         "section": "GastosDePersonal",
@@ -165,7 +165,7 @@ var apiServerHostZoilo = "http://sos1718-07.herokuapp.com";
 
 app.use("/proxyGTD", function(req, res) {
     var url = apiServerHostZoilo + req.url;
-    console.log('piped('+url+'): '+req.baseUrl + req.url);
+    console.log('piped(' + url + '): ' + req.baseUrl + req.url);
     req.pipe(request(url)).pipe(res);
 });
 
