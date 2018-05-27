@@ -5,7 +5,7 @@ var config = require('./config');
 describe('Data is loaded', function() {
     it('should show some spending policies', function(){
        browser
-            .get('https://sos171806zgg-sandbox-sos171806zgg.c9users.io')
+            .get('https://sos1718-06.herokuapp.com/api/v1/spending-policies')
             .then(function() {
                 element
                     .all(by.repeater('spendingPolicie in spendingPolicies')) //todos los elementos que cumplan una condición.
