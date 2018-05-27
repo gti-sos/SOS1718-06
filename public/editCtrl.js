@@ -16,16 +16,10 @@ angular.module("App")
                 window.alert("OK: estadistica actualizada");
                 $location.path("/budgets-laws");
 
-            }, function() {
-                var i;
-                for (i = 0; i < $scope.length; i++) {
-                    if ($scope[i] == null) {
-                        $scope.status = "Error 400: debe completar todos los campos";
-                        break;
-                    }
-                }
+            }, function errorCallback(response) {
+                console.log("Bad request");
+                window.alert("All fields must be numbers!!");
             });
-
         };
 
     }]);

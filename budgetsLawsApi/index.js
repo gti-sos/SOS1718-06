@@ -1,6 +1,7 @@
 var budgetsLawsApi = {};
 var BASE_API_PATH = "/api/v1";
 
+
 module.exports = budgetsLawsApi;
 
 var InitialBudgetsLaws = [{
@@ -57,17 +58,15 @@ budgetsLawsApi.register = function(app, db) {
                 var budgetofcapital = base[j].budgetofcapital;
                 var total = base[j].total;
 
-
-                // City
                 if (param_community != undefined && param_year == undefined && param_section == undefined && param_budgetofcapital == undefined && param_total == undefined) {
 
                     if (param_community == community) {
                         aux_set.push(base[j]);
                     }
 
-                    //Team
                 }
-                if (param_community == undefined && param_year == undefined && param_section != undefined && param_budgetofcapital == undefined && param_total == undefined) {
+
+                else if (param_community == undefined && param_year == undefined && param_section != undefined && param_budgetofcapital == undefined && param_total == undefined) {
 
                     if (param_section == section) {
                         aux_set.push(base[j]);
@@ -75,14 +74,13 @@ budgetsLawsApi.register = function(app, db) {
 
 
                 }
-                // Rightfoot
+
                 else if (param_community == undefined && param_year == undefined && param_section == undefined && param_budgetofcapital != undefined && param_total == undefined) {
 
                     if (param_budgetofcapital == budgetofcapital) {
                         aux_set.push(base[j]);
                     }
                 }
-                // Head
 
                 else if (param_community == undefined && param_year == undefined && param_section == undefined && param_budgetofcapital == undefined && param_total != undefined) {
 
@@ -90,7 +88,7 @@ budgetsLawsApi.register = function(app, db) {
                         aux_set.push(base[j]);
                     }
 
-                    //Penalty
+
                 }
                 else if (param_community == undefined && param_year == undefined && param_section == undefined && param_budgetofcapital == undefined && param_total == undefined) {
 
@@ -135,7 +133,7 @@ budgetsLawsApi.register = function(app, db) {
     app.post(BASE_API_PATH + "/budgets-laws", (req, res) => {
         console.log(Date() + " - POST /budgets");
         var newbudget = req.body;
-        if (!newbudget.community || !newbudget.year || !newbudget.section || !newbudget.budgetofcapital || !newbudget.total || Object.keys(newbudget).length != 6) {
+        if (!newbudget.community || !newbudget.year || !newbudget.section || !newbudget.budgetofcapital || !newbudget.total || Object.keys(newbudget).length != 5) {
             console.log("Warning : new GET request ");
             res.sendStatus(400);
         }
@@ -199,36 +197,6 @@ budgetsLawsApi.register = function(app, db) {
         });
     });
 
-    app.get(BASE_API_PATH + "/budgets-laws/:section/:total", (req, res) => {
-        var section = req.params.section;
-        var total = req.params.total;
-        
-        console.log(Date() + " - GET /budgets/" + section + "/" + total);
-        if (!section || !total) {
-            console.log("Warning : new GET request ");
-            res.sendStatus(400);
-        }
-        db.find({ "section": section, "total": total }).toArray((err, filteredBudgets) => {
-            if (err) {
-                console.error("Error accesing DB");
-                res.sendStatus(500);
-            }
-            else {
-
-                if (filteredBudgets.length > 0) {
-                    res.send(filteredBudgets.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                else {
-                    console.log("WARNING");
-                    res.sendStatus(404);
-                }
-            }
-        });
-    });
-
     app.delete(BASE_API_PATH + "/budgets-laws/:section", (req, res) => {
         var section = req.params.section;
         console.log(Date() + " - DELETE /budgets/" + section);
@@ -243,20 +211,19 @@ budgetsLawsApi.register = function(app, db) {
         res.sendStatus(405);
     });
 
-    app.put(BASE_API_PATH + "/budgets-laws/:section/:total", (req, res) => {
+    app.put(BASE_API_PATH + "/budgets-laws/:section", (req, res) => {
         var section = req.params.section;
-        var numero = req.params.total;
-        var total = req.body;
+        var budget = req.body;
 
-        console.log(Date() + " - PUT /budgets/" + section);
+        console.log(Date() + " - PUT /budgets-laws/" + section);
 
-        if (section != total.section || numero != total.total) {
+        if (section != budget.section) {
             res.sendStatus(400);
             console.warn(Date() + " - Hacking attempt!");
             return;
         }
 
-        db.update({ "section": total.section, "total": total.total }, total);
+        db.update({ "section": budget.section }, budget);
         res.sendStatus(200);
     });
     //Busqueda

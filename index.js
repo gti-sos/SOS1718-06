@@ -86,7 +86,7 @@ MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
 
 });
 
-var apiServerHost = "https://sos1718-06.herokuapp.com";
+var apiServerHost = "https://sos1718-01.herokuapp.com";
 
 app.use("/proxyALVARO", function(req, res) {
     var url = apiServerHost + req.url;

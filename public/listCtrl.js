@@ -17,7 +17,6 @@ angular
                     $scope.status = "La estadistica ya existe";
                 }
             });
-            getBudgets();
         };
 
         $scope.deleteBudget = function(section) {
@@ -147,10 +146,22 @@ angular
 
         };
 
+        $scope.getLoad = function() {
+            $http.get(api + "/loadInitialData").then(function(response) {
+                getBudgets();
+                $scope.status = response.data;
+                window.alert(response.data);
+            });
+        };
+
 
         function getBudgets() {
             $http.get(api).then(function(response) {
                 $scope.budgets = response.data;
+            }, function errorCallback(response) {
+                console.log("Empty");
+                $scope.budgets = [];
+                $scope.status = response.data;
             });
         }
 
