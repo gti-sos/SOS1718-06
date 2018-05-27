@@ -1,5 +1,6 @@
 var fs = require("fs");
 var path = require("path");
+var config = require('./config');
 
 describe('Data is loaded', function() {
     it('should show some spending policies', function(){
