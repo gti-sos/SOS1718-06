@@ -1,3 +1,5 @@
+var config = require('./config');
+
 describe('Add spending policie', function() {
     it('should add a new spending policie', function() {
          browser
