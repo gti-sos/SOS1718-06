@@ -1,0 +1,529 @@
+{
+	"info": {
+		"_postman_id": "8d23e716-aa9f-4a55-99ed-e64932fe2129",
+		"name": "definitivo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5cd92538-5d1b-47a0-a38b-c30ae237be47",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Spending-policies list should have more than 4 spending policies\"] = (jsonData.length >= 5);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies",
+					"protocol": "https",
+					"host": [
+						"sos171806zgg-sandbox-sos171806zgg",
+						"c9users",
+						"io"
+					],
+					"path": [
+						"api",
+						"v1",
+						"spending-policies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3e918df4-bf85-4258-bbaa-93ca44816b86",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Spending-policies list should have 1 spending policy\"] = (jsonData.length = 1);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies/GastosDePersonal",
+					"protocol": "https",
+					"host": [
+						"sos171806zgg-sandbox-sos171806zgg",
+						"c9users",
+						"io"
+					],
+					"path": [
+						"api",
+						"v1",
+						"spending-policies",
+						"GastosDePersonal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9e4ec997-0952-406d-8520-d79eccf5a244",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies/GastosDePersonal",
+					"protocol": "https",
+					"host": [
+						"sos171806zgg-sandbox-sos171806zgg",
+						"c9users",
+						"io"
+					],
+					"path": [
+						"api",
+						"v1",
+						"spending-policies",
+						"GastosDePersonal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0264f5ca-2c49-46b3-a1c4-0e84f33d0664",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"section\": \"NuevoRecurso\",\n        \"community\": \"Andalucia\",\n        \"year\": 2017,\n        \"percentagetotal\": 10,\n        \"percentagevariable\": 20\n    }"
+				},
+				"url": {
+					"raw": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies",
+					"protocol": "https",
+					"host": [
+						"sos171806zgg-sandbox-sos171806zgg",
+						"c9users",
+						"io"
+					],
+					"path": [
+						"api",
+						"v1",
+						"spending-policies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9b2dc386-4691-46d6-9667-16401e21f756",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"section\": \"NuevoRecurso\",\n            \"community\": \"Andalucia\",\n            \"year\": 2017,\n            \"percentage-total\": 9.9,\n            \"percentage-variable\": 12.9\n  }"
+				},
+				"url": {
+					"raw": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies",
+					"protocol": "https",
+					"host": [
+						"sos171806zgg-sandbox-sos171806zgg",
+						"c9users",
+						"io"
+					],
+					"path": [
+						"api",
+						"v1",
+						"spending-policies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies/NuevoRecurso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "392f2321-bed5-40c8-8637-0e3132ae1454",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"section\": \"NuevoRecurso\",\n            \"community\": \"Galicia\",\n            \"year\": 2017,\n            \"percentage-total\": 9.9,\n            \"percentage-variable\": 30\n  }"
+				},
+				"url": {
+					"raw": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies/NuevoRecurso",
+					"protocol": "https",
+					"host": [
+						"sos171806zgg-sandbox-sos171806zgg",
+						"c9users",
+						"io"
+					],
+					"path": [
+						"api",
+						"v1",
+						"spending-policies",
+						"NuevoRecurso"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies/NuevoRecurso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b9df5d30-8acd-42d9-91da-404968cae6b0",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"section\": \"NuevoRecurso\",\n            \"community\": \"Galicia\",\n            \"year\": 2017,\n            \"percentage-total\": 9.9,\n            \"percentage-variable\": 12.9\n  }"
+				},
+				"url": {
+					"raw": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies/NuevoRecurso",
+					"protocol": "https",
+					"host": [
+						"sos171806zgg-sandbox-sos171806zgg",
+						"c9users",
+						"io"
+					],
+					"path": [
+						"api",
+						"v1",
+						"spending-policies",
+						"NuevoRecurso"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies/GastosDePersonal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d85ee033-a8af-456f-8b9c-92eb32fe573c",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"section\": \"NuevoRecurso\",\n            \"community\": \"Galicia\",\n            \"year\": 2017,\n            \"percentage-total\": 9.9,\n            \"percentage-variable\": 30\n  }"
+				},
+				"url": {
+					"raw": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies/GastosDePersonal",
+					"protocol": "https",
+					"host": [
+						"sos171806zgg-sandbox-sos171806zgg",
+						"c9users",
+						"io"
+					],
+					"path": [
+						"api",
+						"v1",
+						"spending-policies",
+						"GastosDePersonal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0601a089-a647-451c-9592-91fb632e4968",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"section\": \"GastosDePersonal\",\n            \"community\": \"Andalucia\",\n            \"year\": 2017,\n            \"percentage-total\": 9.9,\n            \"percentage-variable\": 12.9\n  }"
+				},
+				"url": {
+					"raw": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies",
+					"protocol": "https",
+					"host": [
+						"sos171806zgg-sandbox-sos171806zgg",
+						"c9users",
+						"io"
+					],
+					"path": [
+						"api",
+						"v1",
+						"spending-policies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8c1637d4-d54d-4253-8fb4-39e2b88d5d48",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"section\": \"NuevoRecurso2\",\n            \"community\": \"Andalucia\",\n            \"year\": 2017,\n            \"percentage-variable\": 12.9\n  }"
+				},
+				"url": {
+					"raw": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies",
+					"protocol": "https",
+					"host": [
+						"sos171806zgg-sandbox-sos171806zgg",
+						"c9users",
+						"io"
+					],
+					"path": [
+						"api",
+						"v1",
+						"spending-policies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies/RecursoInexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4b5f6e01-295c-4122-b64e-c17564270069",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"section\": \"NuevoRecurso2\",\n            \"community\": \"Andalucia\",\n            \"year\": 2017,\n            \"percentage-variable\": 12.9\n  }"
+				},
+				"url": {
+					"raw": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies/RecursoInexistente",
+					"protocol": "https",
+					"host": [
+						"sos171806zgg-sandbox-sos171806zgg",
+						"c9users",
+						"io"
+					],
+					"path": [
+						"api",
+						"v1",
+						"spending-policies",
+						"RecursoInexistente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "25307cac-f519-411e-a44d-a7d7b5e5285a",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"section\": \"NuevoRecurso2\",\n            \"community\": \"Andalucia\",\n            \"year\": 2017,\n            \"percentage-variable\": 12.9\n  }"
+				},
+				"url": {
+					"raw": "https://sos171806zgg-sandbox-sos171806zgg.c9users.io/api/v1/spending-policies",
+					"protocol": "https",
+					"host": [
+						"sos171806zgg-sandbox-sos171806zgg",
+						"c9users",
+						"io"
+					],
+					"path": [
+						"api",
+						"v1",
+						"spending-policies"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
