@@ -20,11 +20,11 @@ angular.module("App")
                                         text: 'sharedAnalytics2'
                                     },
                                     xAxis: {
-                                        categories: response2.data.map(function(d) { return d["team"] })
+                                        categories: response2.data.map(function(d) { return d["budget"] })
                                     },
                                     yAxis: {
                                         title: {
-                                            text: 'transfer1'
+                                            text: 'budgets1'
                                         }
                                     },
                                     plotOptions: {
