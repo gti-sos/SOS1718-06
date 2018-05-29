@@ -4,18 +4,12 @@
   "description": "codigo del servidor",
   "main": "index.js",
   "scripts": {
-<<<<<<< HEAD
+
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "pretest": "public/testBudgetsLaws/runPhantomjs.sh",
-    "test": "protractor public/testBudgetsLaws/config.js",
+    "pretest": "public/testBudgetsLaws/runPhantomjs.sh; test/runPhantomjs.sh",
+    "test": "protractor public/testBudgetsLaws/config.js; protractor test/config.js",
     "posttest": "killall phantomjs"
-=======
-    "pretest": "test/runPhantomjs.sh",
-    "test": "protractor test/config.js",
-    "posttest": "killall phantomjs",
-    "start": "node index.js"
->>>>>>> 4a3fb7062a518a17317dc4fa5259e0d664267dd3
   },
   "repository": {
     "type": "git",
