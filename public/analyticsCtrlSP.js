@@ -9,67 +9,44 @@ angular
     .module("ResourcesApp")
     .controller("AnalyticsCtrlSP", ["$scope", "$http", function($scope, $http) { //$scope permite acceder a los datos, al modelo.
         console.log("List Ctrl Spending Policies initialized!"); //$http establece la conexión entre el navegador del usuario y el servidor (backend).
-        var api = "api/v1/spending-policies";
+        var apiPropia = "api/v1/spending-policies";
 
         $http
-            .get("api/v1/spending-policies")
+            .get(apiPropia)
             .then(function(response) {
 
                 Highcharts.chart('analytics1', {
                     chart: {
-                        type: 'column'
+                        type: 'pyramid'
                     },
                     title: {
-                        text: 'Spending Policies in 2017'
+                        text: 'Spending Policies pyramid',
+                        x: -50
                     },
-                    xAxis: {
-                        type: response.data.map(function(d) { return d.section }),
-                        labels: {
-                            rotation: -45,
-                            style: {
-                                fontSize: '13px',
-                                fontFamily: 'Verdana, sans-serif'
-                            }
-                        }
-                    },
-                    yAxis: {
-                        min: 0,
-                        title: {
-                            text: 'Percentage Total'
+                    plotOptions: {
+                        series: {
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>',
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
+                                softConnector: true
+                            },
+                            center: ['40%', '50%'],
+                            width: '80%'
                         }
                     },
                     legend: {
                         enabled: false
                     },
-                    tooltip: {
-                        pointFormat: 'Percentage total in 2017: <b>{point.y:.1f}%</b>'
-                    },
                     series: [{
-                        name: 'Data',
-                        data: response.data.map(function(d) { return d.percentagetotal })
-                            //[
-
-                            /*['GastosDePersonal', 30.8],
-                            ['GastosCorrientesEnBienesYServicios', 9.9],
-                            ['GastosFinancieros', 1.5],
-                            ['TransferenciasCorrientes', 35.4],
-                            ['InversionesReales', 4] */
-                            /*[response.data.map(function(d) { return d.section }), response.data.map(function(d) { return d.percentagetotal })]*/
-
-                            //],
-                            ,
-                        dataLabels: {
-                            enabled: true,
-                            rotation: -90,
-                            color: '#FFFFFF',
-                            align: 'right',
-                            format: '{point.y:.1f}', // one decimal
-                            y: 10, // 10 pixels down from the top
-                            style: {
-                                fontSize: '13px',
-                                fontFamily: 'Verdana, sans-serif'
-                            }
-                        }
+                        name: 'Percentage Total',
+                        data: [
+                            [response.data[0].section, response.data[0].percentagetotal],
+                            [response.data[1].section, response.data[1].percentagetotal],
+                            [response.data[2].section, response.data[2].percentagetotal], 
+                            [response.data[3].section, response.data[3].percentagetotal],
+                            [response.data[4].section, response.data[4].percentagetotal]
+                        ]
                     }]
                 });
 
@@ -77,7 +54,7 @@ angular
 
 
         $http
-            .get("api/v1/spending-policies")
+            .get(apiPropia)
             .then(function(response) {
                 anychart.onDocumentReady(function() {
                     // create bar chart
@@ -91,12 +68,11 @@ angular
 
                     // create bar series with passed data
                     var series = chart.bar([
-                        //['GastosDePersonal', response.data.map(function(d) { return d.percentagetotal })],
-                        ['GastosDePersonal', '30.8'],
-                        ['GastosCorrientesEnBienesYServicios', '9.9'],
-                        ['GastosFinancieros', '1.5'],
-                        ['TransferenciasCorrientes', '35.4'],
-                        ['InversionesReales', '4']
+                        [response.data[0].section, response.data[0].percentagetotal],
+                        [response.data[1].section, response.data[1].percentagetotal],
+                        [response.data[2].section, response.data[2].percentagetotal],
+                        [response.data[3].section, response.data[3].percentagetotal],
+                        [response.data[4].section, response.data[4].percentagetotal]
                     ]);
 
                     // set tooltip settings
@@ -125,32 +101,44 @@ angular
                     chart.draw();
                 });
             });
+
+
+
         //GeoCharts
-        google.charts.load('current', {
-            'packages': ['geochart'],
-            // Note: you will need to get a mapsApiKey for your project.
-            // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
-            'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
-        });
-        google.charts.setOnLoadCallback(drawRegionsMap);
+        $http
+            .get(apiPropia)
+            .then(function(response) {
+                google.charts.load('current', {
+                    'packages': ['geochart'],
+                    // Note: you will need to get a mapsApiKey for your project.
+                    // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+                    'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+                });
+                google.charts.setOnLoadCallback(drawRegionsMap);
 
-        function drawRegionsMap() {
-            var data = google.visualization.arrayToDataTable([
-                ['City ', 'Percentage Total'],
-                ['Sevilla', 35.4]
-            ]);
+                function drawRegionsMap() {
+                    var data = google.visualization.arrayToDataTable([
+                        ['City ', 'Percentage Total'],
+                        ['Sevilla', response.data[0].percentagevariable],
+                        ['Madrid', response.data[1].percentagevariable],
+                        ['Barcelona', response.data[2].percentagevariable],
+                        ['Bilbao', response.data[3].percentagevariable],
+                        ['Vigo', response.data[4].percentagevariable]
+                    ]);
 
-            var options = {
-                region: 'ES',
-                displayMode: 'markers',
-                colorAxis: { colors: ['green', 'blue'] }
-            };
+                    var options = {
+                        region: 'ES',
+                        displayMode: 'markers',
+                        colorAxis: { colors: ['green', 'blue'] }
+                    };
 
 
-            var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+                    var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
 
-            chart.draw(data, options);
-        }
+                    chart.draw(data, options);
+                }
+
+            });
 
 
     }]);
