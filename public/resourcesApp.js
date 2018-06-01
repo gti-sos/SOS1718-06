@@ -25,6 +25,11 @@ angular
             .when("/analytics", {
                 templateUrl: "analyticsSP.html",
                 controller: "AnalyticsCtrlSP"
+            })
+            .when("/apisExternas", {
+                templateUrl: "apisExternasSP.html",
+                controller: "ApisExternasCtrlSP"
             });
+
 
     });
