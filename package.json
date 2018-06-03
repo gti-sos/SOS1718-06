@@ -7,8 +7,8 @@
 
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "pretest": "public/testBudgetsLaws/runPhantomjs.sh; test/runPhantomjs.sh",
-    "test": "protractor public/testBudgetsLaws/config.js; protractor test/config.js",
+    "pretest": "public/testBudgetsLaws/runPhantomjs.sh; public/testsSpendingPolicies/runPhantomjs.sh",
+    "test": "protractor public/testBudgetsLaws/config.js; protractor public/testsSpendingPolicies/config.js",
     "posttest": "killall phantomjs"
   },
   "repository": {
