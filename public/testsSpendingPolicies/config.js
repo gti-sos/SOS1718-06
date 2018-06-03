@@ -1,3 +1,5 @@
+/*global browser*/
+
 exports.config = {
     
     seleniumAddress: 'http://localhost:8910',  //en qué sitio hay corriendo un proceso que entienda el protocolo de selenium.
